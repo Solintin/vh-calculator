@@ -10,23 +10,23 @@
       <div class="divide-y-4 capitalize text-lg font-medium">
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
-          <div>NGN {{ digitFormatter(result.details.detail.result) }}</div>
+          <div>NGN {{ digitFormatter(result.result) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
-          <div>NGN {{ digitFormatter(result.details.detail.total) }}</div>
+          <div>NGN {{ digitFormatter(result.total) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
           <div>
-            {{ currency }}
-            {{ digitFormatter(result.details.detail.result_NGN) }}
+            {{ result.selectedCurrency.currency_code}}
+            {{ digitFormatter(result.result_NGN) }}
           </div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
           <div>
-            {{ currency }} {{ digitFormatter(result.details.detail.total_NGN) }}
+            {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.total_NGN) }}
           </div>
         </div>
       </div>
@@ -98,6 +98,7 @@ export default {
   data() {
     return {};
   },
+ 
   computed: {
     ...mapState(["loading"]),
     htmlToPdfOptions() {

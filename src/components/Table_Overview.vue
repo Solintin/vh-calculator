@@ -8,7 +8,7 @@
     >
       <table className="w-full items-center table-auto ">
         <thead>
-          <tr className="font-bold  bg-[#DBEBFF]">
+          <tr className="font-bold  bg-[#DBEBFF] th_bg">
             <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
               User Email
             </th>
@@ -64,10 +64,20 @@ export default {
   },
   computed: {
     ...mapState(["loading"]),
-  
   },
 };
 </script>
 <!-- eslint-disable -->
 
-
+<style >
+.th_bg{
+  background: #000;
+}
+.table-wrapper table thead tr th,
+.table-wrapper table tbody tr td {
+  @apply px-3 py-5 leading-5 text-center whitespace-nowrap;
+}
+table {
+  width: 100%;
+}
+</style>

@@ -273,9 +273,9 @@ export default {
       showHscodeDesc: false,
       insuranceToggle: false,
       insuranceType: "actual",
-      selectedCurrency: { currency_code: null },
+      selectedCurrency: { currency_code: '' },
       selectedCode: {
-        code: null,
+        code: '',
         description: "",
       },
       item: {
@@ -287,11 +287,12 @@ export default {
     };
   },
 
+
   computed: {
     ...mapState(["tariffsList", "ratesList"]),
     resultInfo() {
       return {
-        ...this.result.details,
+        ...this.result.details.detail,
         selectedCode: this.selectedCode,
         selectedCurrency: this.selectedCurrency,
         item: this.item,

@@ -1,7 +1,9 @@
 <!-- eslint-disable -->
 
 <template>
-  <div class="layout">
+  <div
+    class="layout"
+  >
     <div class="update_box space-y-8">
       <h1 class="text-xl font-medium text-center">
         {{ currentTab.toUpperCase() }}
@@ -48,13 +50,13 @@
               ? 'cursor-not-allowed bg-green-300'
               : 'bg-green-600'
           "
-          class="flex justify-center max-w-max rounded-full px-5 py-2 text-base font-medium text-white"
+          class="flex justify-center max-w-max rounded-md px-5 py-2 text-base font-medium text-white"
         >
           <span>Upload Now</span>
         </button>
         <button
           @click="handleUpdateModal"
-          class="flex justify-center max-w-max rounded-full px-5 py-2 text-base font-medium bg-red-600 text-white"
+          class="flex justify-center max-w-max rounded-md px-5 py-2 text-base font-medium bg-red-600 text-white"
         >
           <span>Cancel</span>
         </button>
@@ -69,7 +71,7 @@ import LvProgressBar from "lightvue/progress-bar";
 import axios from "@/Utils/axios.config.js";
 
 export default {
-  props: ["handleUpdateModal", "currentTab"],
+  props: ["handleUpdateModal", "currentTab", "opacity-100"],
 
   components: {
     LvProgressBar,
@@ -85,52 +87,40 @@ export default {
     };
   },
 
-  computed: {
-    handleUpdateModal() {
-      return this.handleUpdateModal;
-    },
-    currentTab() {
-      return this.currentTab;
-    },
-  },
-
   methods: {
     handleImageUpload(event) {
       this.fileName = event.target.files[0].name;
       this.fileUpdate = event.target.files[0];
-
-      const upload = async () => {
-        const options = {
-          onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-            uploadProgressPercent.value = Math.floor((loaded * 100) / total);
-          },
-        };
-        let formData = new FormData();
-        formData.append("file_upload", fileUpdate.value);
-        if (currentTab.value == "rate") {
-          uploading.value = true;
-          try {
-            await axios.post("/api/v1/rate/", formData, options).then((res) => {
-              success_message.value = res.data.detail;
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        } else {
-          uploading.value = true;
-
-          try {
-            await axios
-              .post("/api/v1/tariff/", formData, options)
-              .then((res) => {
-                success_message.value = res.data.detail;
-              });
-          } catch (error) {
-            console.log(error);
-          }
-        }
+    },
+    async upload() {
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent;
+          this.uploadProgressPercent = Math.floor((loaded * 100) / total);
+        },
       };
+      let formData = new FormData();
+      formData.append("file_upload", this.fileUpdate);
+      if (this.currentTab == "rate") {
+        this.uploading = true;
+        try {
+          await axios.post("/api/v1/rate/", formData, options).then((res) => {
+            this.success_message = res.data.detail;
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.uploading = true;
+
+        try {
+          await axios.post("/api/v1/tariff/", formData, options).then((res) => {
+            this.success_message = res.data.detail;
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
   },
 };

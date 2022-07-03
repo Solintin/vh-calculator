@@ -16,7 +16,7 @@
             <p class="text-lg">HSCODE:</p>
           </div>
           <div class="col-span-8">
-            {{ result.selectedCode.hscode }}
+            {{ result.selectedCode.code }}
           </div>
         </div>
         <div class="grid grid-cols-12">
@@ -36,65 +36,69 @@
           </div>
         </div>
       </div>
-      <div class="padding flex justify-between pr-20">
-        <div class="font-medium">FOB: {{ result.item.fob }} {{ result.selectedCurrency.currency_code }}</div>
+      <div class="padding flex justify-between pr-24">
         <div class="font-medium">
-          Insurance: {{ Freight }} {{ result.selectedCurrency.currency_code }}
+          FOB: {{ result.item.fob }} {{ result.selectedCurrency.currency_code }}
         </div>
         <div class="font-medium">
-          Freight: {{ Insurance }} {{ result.selectedCurrency.currency_code }}
+          Insurance: {{ result.item.freight }}
+          {{ result.selectedCurrency.currency_code }}
+        </div>
+        <div class="font-medium">
+          Freight: {{ result.item.insurance }}
+          {{ result.selectedCurrency.currency_code }}
         </div>
       </div>
 
       <div class="tab mt-5 px-10">
         <div class="grid grid-cols-12 border-b-2 pb-6">
-          <div class="col-span-11 pr-10 text-lg font-medium">Result</div>
-          <div class="col-span-1 text-lg font-medium">NGN </div>
+          <div class="col-span-10 pr-10 text-lg font-medium">Result</div>
+          <div class="col-span-2 text-lg font-medium">NGN</div>
         </div>
         <div class="divide-y-2">
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">
                 CIF (Sum of FOB, Insurance and Freight
               </p>
             </div>
-            <div class="col-span-1">{{result.cif}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.cif) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">CIF</p>
             </div>
-            <div class="col-span-1">{{result.cf}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.cf) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">ID</p>
             </div>
-            <div class="col-span-1">{{result.id}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.id) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">Surcharge</p>
             </div>
-            <div class="col-span-1">{{result.sc}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.sc) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">CISS (1% of FOB value)</p>
             </div>
-            <div class="col-span-1">{{result.ciss}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.ciss) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">ETLS (0.5% of CIF)</p>
             </div>
-            <div class="col-span-1">{{result.etls}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.etls) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
-            <div class="col-span-11">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">VAT</p>
             </div>
-            <div class="col-span-1"> {{result.vat}} NGN </div>
+            <div class="col-span-2">{{ digitFormatter(result.vat) }} NGN</div>
           </div>
         </div>
       </div>
@@ -102,13 +106,13 @@
         <div class="col-span-5">
           <p class="">TOTAL IMPORT DUTY PAYABLE:</p>
         </div>
-        <div class="col-span-7">{{ result.result_NGN }} NGN</div>
+        <div class="col-span-7 underline">{{ digitFormatter(result.result_NGN) }} NGN</div>
       </div>
       <div class="grid grid-cols-12 text-lg font-medium">
         <div class="col-span-5">
           <p class="">SUM TOTAL:</p>
         </div>
-        <div class="col-span-7">{{ result.total_NGN }} NGN</div>
+        <div class="col-span-7 underline">{{ digitFormatter(result.total_NGN) }} NGN</div>
       </div>
       <p class="success padding2">
         Rates used for this calculation are based on last updated value at
@@ -120,9 +124,16 @@
 <!-- eslint-disable -->
 
 <script>
+import { digitFormatter } from "@/Utils/helper_function";
+
 export default {
   name: "ResultCmp",
   props: ["result"],
+  methods: {
+    digitFormatter(input) {
+      return digitFormatter(input);
+    },
+  },
 };
 </script>
 <!-- eslint-disable -->

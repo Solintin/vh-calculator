@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "@/views/login.vue";
-import result from "@/views/result.vue";
+import Client_Calculator from "@/views/calculator.vue";
 import Register from "@/views/register.vue";
 import Index from "@/views/Dashboard/index.vue";
 import Rate from "@/views/Dashboard/rate.vue";
@@ -18,9 +18,9 @@ const routes = [
     component: Login,
   },
   {
-    path: "/result",
-    name: "result",
-    component: result,
+    path: "/calculator",
+    name: "calculator",
+    component: Client_Calculator,
   },
   {
     path: "/register",

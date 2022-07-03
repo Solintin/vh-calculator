@@ -2,37 +2,46 @@
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
 
-
 export const useRegister = (credentials, store, router) => {
- store.dispatch("setLoading", true);
+  store.dispatch("setLoading", true);
   axios
     .post("/account/register/", credentials)
     .then((response) => {
       Cookies.set("token", response.data.token);
-     store.dispatch("setUser", response.data);
-     store.dispatch("setLoading", false);
-     router.push("/admin/overview");
+      store.dispatch("setUser", response.data);
+      store.dispatch("setLoading", false);
+      const { user_type } = response.data.user;
+      if (user_type === "Super Admin") {
+        router.push("/admin/overview");
+      } else {
+        router.push("/calculator");
+      }
     })
     .catch((error) => {
-     store.dispatch("setLoading", false);
+      store.dispatch("setLoading", false);
       console.log(error);
     });
 };
 
 export const useLogin = (credentials, store, router) => {
- store.dispatch("setLoading", true);
+  store.dispatch("setLoading", true);
   axios
     .post("/account/auth/", credentials)
     .then((response) => {
       Cookies.set("token", response.data.token);
-     store.dispatch("setUser", response.data);
-     store.dispatch("setLoading", false);
-     router.push("/admin/overview");
-    //  this.toast.success("Login Successful")
+      store.dispatch("setUser", response.data);
+      store.dispatch("setLoading", false);
+      const { user_type } = response.data.user;
+      if (user_type === "Super Admin") {
+        router.push("/admin/overview");
+      } else {
+        router.push("/calculator");
+      }
+      //  this.toast.success("Login Successful")
     })
     .catch((error) => {
-    //  this.toast.error("Login Failed")
-     store.dispatch("setLoading", false);
+      //  this.toast.error("Login Failed")
+      store.dispatch("setLoading", false);
       console.log(error);
     });
 };

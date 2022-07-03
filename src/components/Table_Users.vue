@@ -75,7 +75,7 @@ export default {
     },
     handleRole(id, user_type) {
       const getUserType = this.handleUserType(user_type);
-      store.dispatch("setLoading", true);
+      this.$store.dispatch("setLoading", true);
 
       axios
         .put(`/account/user/${id}/`, {
@@ -83,11 +83,11 @@ export default {
         })
         .then((response) => {
           location.reload();
-          store.dispatch("setLoading", false);
+          this.$store.dispatch("setLoading", false);
           // calculationList(response.data);
         })
         .catch((error) => {
-          store.dispatch("setLoading", false);
+          this.$store.dispatch("setLoading", false);
         });
     },
   },
