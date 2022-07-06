@@ -8,9 +8,9 @@ export const useRegister = (credentials, store, router) => {
     .post("/account/register/", credentials)
     .then((response) => {
       // Cookies.set("token", response.data.token);
-      store.dispatch("setUser", response.data);
+      store.dispatch("setNewUser", response.data);
       store.dispatch("setLoading", false);
-      const { user_type } = response.data.user;
+      const { user_type } = response.data;
       if (user_type === "Super Admin") {
         router.push("/admin/overview");
       } else {

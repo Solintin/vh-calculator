@@ -3,7 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./assets/tailwind.css";
-
+import VueToast from 'vue-toast-notification';
+Vue.use(VueToast);
 
 Vue.config.productionTip = false;
 

@@ -25,6 +25,10 @@ export default new Vuex.Store({
       commit("SET_USER", user);
       Cookies.set("token", user.token);
     },
+    setNewUser({ commit }, user) {
+      commit("SET_NEW_USER", user);
+      Cookies.set("token", user.token);
+    },
     setUserList({ commit }, items) {
       commit("SET_USER_LIST", items);
     },
@@ -54,6 +58,11 @@ export default new Vuex.Store({
     SET_USER(state, user) {
       state.currentUser = user;
       state.userType = user.user.user_type;
+      state.isLoggedIn = true;
+    },
+    SET_NEW_USER(state, user) {
+      state.currentUser = user;
+      state.userType = user.user_type;
       state.isLoggedIn = true;
     },
     SET_USER_LIST(state, items) {
