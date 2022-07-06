@@ -54,7 +54,10 @@
         </tbody>
       </table>
 
-      <div class="flex justify-between px-10 items-center mt-5">
+      <div
+        v-if="filteredTableData && filteredTableData.length > 0"
+        class="flex justify-between px-10 items-center mt-5"
+      >
         <button
           @click="prevHandler"
           :disabled="prev === null"

@@ -37,10 +37,10 @@ export const useLogin = (credentials, store, router) => {
       } else {
         router.push("/calculator");
       }
-      //  this.toast.success("Login Successful")
+      //  this.$toast.success("Login Successful")
     })
     .catch((error) => {
-      //  this.toast.error("Login Failed")
+      //  Vue.$toast.error("Login Failed")
       store.dispatch("setLoading", false);
       console.log(error);
     });
