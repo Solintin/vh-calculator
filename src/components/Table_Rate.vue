@@ -24,9 +24,9 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="rateData.length > 0">
           <tr
-            v-for="(item, idx) in rateData.results"
+            v-for="(item, idx) in rateData"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
             } text-base font-medium  hover:bg-gray-200`"
@@ -48,10 +48,14 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else class="flex justify-center">
+          <h1 class="text-center py-4 text-lg font-medium text-red-500">
+            No result found
+          </h1>
+        </tbody>
       </table>
     </div>
-    <Update_Rate 
-    v-if="isUpdateRate" :item="data" :setUpdateModal="update" />
+    <Update_Rate v-if="isUpdateRate" :item="data" :setUpdateModal="update" />
   </div>
 </template>
 
@@ -64,7 +68,7 @@ import Update_Rate from "./Update_Rate.vue";
 
 export default {
   components: { Loading, Update_Rate },
-  props: { rateData: Object, loadng: Boolean },
+  props: { rateData: Array, loadng: Boolean },
   computed: {
     ...mapState(["loading"]),
   },

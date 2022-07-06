@@ -10,7 +10,8 @@
         class="w-[500px] bg-[#ECECEC] rounded-md flex ring-1 ring-[#B659A2CC]"
       >
         <input
-          type="text"
+          type="search"
+          v-model.trim="serachQuery"
           name="search"
           placeholder="Keyword : User Email or Description"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -23,7 +24,12 @@
       </div>
     </div>
     <div class="mt-24 table_overview">
-      <Table_Overview :tableData="tableData" :loading="isLoading" />
+      <Table_Overview
+        :filteredTableData="filteredTableData"
+        :loading="isLoading"
+        :next="next"
+        :prev="prev"
+      />
     </div>
   </div>
 </template>
@@ -38,35 +44,53 @@ export default {
 
   data() {
     return {
-     tableData : null,
-    isLoading : false
+      tableData: null,
+      isLoading: false,
+      serachQuery: "",
+      prev: null,
+      next: null,
     };
   },
-created(){
-this.fetchCalculations();
-},
+  created() {
+    this.fetchCalculations();
+  },
 
+  computed: {
+    filteredTableData() {
+      if (this.tableData !== null) {
+        return this.tableData.results.filter((item) =>
+          item.user.email.toLowerCase().includes(this.serachQuery.toLowerCase())
+        );
+      }
+    },
+  },
   methods: {
-  async fetchCalculations(){
-     this.$store.dispatch("setLoading", true);
-     this.isLoading = true
+    async fetchCalculations() {
+      this.$store.dispatch("setLoading", true);
+      this.isLoading = true;
 
       await axios
         .get("/api/v1/calculation/")
         .then((response) => {
           this.$store.dispatch("setLoading", false);
-          this.isLoading = false
+          this.isLoading = false;
           // calculationList(response.data);
           this.tableData = response.data;
+          this.prev = response.data.previous;
+          this.next = response.data.next;
         })
         .catch((error) => {
           this.$store.dispatch("setLoading", false);
-          this.isLoading = false
-
+          this.isLoading = false;
         });
+    },
+    nextHandler(){
+      //Get next string api
+      const getNextApi = this.next.replace("https://valuehandler.herokuapp.com", "")
+
     }
-  }
-  };
+  },
+};
 </script>
 <!-- eslint-disable -->
 

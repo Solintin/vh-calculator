@@ -29,7 +29,7 @@
           <div class="flex flex-col">
             <label>SU</label>
             <input
-              type="number"
+              type="text"
               required
               v-model="su"
               class="input_box"
@@ -131,6 +131,7 @@ export default {
     this.hs_description = this.item.hs_description;
     this.hscode = this.item.hscode;
     this.su = this.item.su;
+    this.vat = this.item.vat;
     this.id_tariff = this.item.id_tariff;
     this.levy = this.item.levy;
   },
@@ -184,7 +185,7 @@ export default {
   /* pointer-events: none; */
 }
 .update_box {
-  @apply shadow-lg bg-white rounded-lg min-w-[275] lg:w-[500px];
+  @apply shadow-lg bg-white rounded-lg min-w-[275] lg:w-[500px] max-h-[600px] overflow-y-auto;
   z-index: 2;
 }
 .input_box {

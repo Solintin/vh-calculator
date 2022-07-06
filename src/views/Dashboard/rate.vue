@@ -26,10 +26,11 @@
       </div>
 
       <div
-        class="w-[500px] hidden bg-[#ECECEC] rounded-md lg:flex ring-1 ring-[#B659A2CC]"
+        class="w-[500px] hidden mx-2 bg-[#ECECEC] rounded-md lg:flex ring-1 ring-[#B659A2CC]"
       >
         <input
-          type="text"
+          type="search"
+          v-model.trim="serachQuery"
           name="search"
           placeholder="Keyword : User Email or Description"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -59,8 +60,8 @@
       </div>
     </div>
     <div class="mt-24 table_rate">
-      <Table_Rate v-if="Tab === 'rate'" :rateData="rateData" />
-      <Table_Tariff v-if="Tab === 'tarrif'" :tariffData="tariffData" />
+      <Table_Rate v-if="Tab === 'rate'" :rateData="filteredRateData" />
+      <Table_Tariff v-if="Tab === 'tarrif'" :tariffData="filteredTariffData" />
     </div>
     <Update
       v-if="updateModal"
@@ -89,6 +90,7 @@ export default {
       isLoading: false,
       tariffData: null,
       rateData: null,
+      serachQuery: "",
     };
   },
 
@@ -108,6 +110,33 @@ export default {
         ).toLocaleDateString("en-GB");
       }
       return "Loading...";
+    },
+    filteredRateData() {
+      if (this.rateData !== null) {
+        return this.rateData.results.filter(
+          (item) =>
+            item.currency_name
+              .toLowerCase()
+              .includes(this.serachQuery.toLowerCase()) ||
+            item.currency_code
+              .toLowerCase()
+              .includes(this.serachQuery.toLowerCase()) 
+        );
+      }
+    },
+    filteredTariffData() {
+      if (this.tariffData !== null) {
+        return this.tariffData.results.filter(
+          (item) =>
+            item.hs_description
+              .toLowerCase()
+              .includes(this.serachQuery.toLowerCase()) ||
+            item.hscode
+              .toLowerCase()
+              .includes(this.serachQuery.toLowerCase()) ||
+            item.su.toLowerCase().includes(this.serachQuery.toLowerCase())
+        );
+      }
     },
   },
   created() {
@@ -130,7 +159,7 @@ export default {
 
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
-        
+
         this.$store.dispatch("fetchCalculationData", response3.data);
         this.$store.dispatch("rateList", response2.data);
         this.$store.dispatch("tariffList", response1.data);

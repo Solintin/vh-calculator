@@ -90,6 +90,20 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-10">
+              <p class="text-gray-500 font-medium">Levy</p>
+            </div>
+            <div class="col-span-2">
+              {{ digitFormatter(result.exercise_duty) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-10">
+              <p class="text-gray-500 font-medium">Exercise duty</p>
+            </div>
+            <div class="col-span-2">{{ digitFormatter(result.ciss) }} NGN</div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-10">
               <p class="text-gray-500 font-medium">ETLS (0.5% of CIF)</p>
             </div>
             <div class="col-span-2">{{ digitFormatter(result.etls) }} NGN</div>
@@ -106,13 +120,17 @@
         <div class="col-span-5">
           <p class="">TOTAL IMPORT DUTY PAYABLE:</p>
         </div>
-        <div class="col-span-7 underline">{{ digitFormatter(result.result_NGN) }} NGN</div>
+        <div class="col-span-7 underline">
+          {{ digitFormatter(result.result_NGN) }} NGN
+        </div>
       </div>
       <div class="grid grid-cols-12 text-lg font-medium">
         <div class="col-span-5">
           <p class="">SUM TOTAL:</p>
         </div>
-        <div class="col-span-7 underline">{{ digitFormatter(result.total_NGN) }} NGN</div>
+        <div class="col-span-7 underline">
+          {{ digitFormatter(result.total_NGN) }} NGN
+        </div>
       </div>
       <p class="success padding2">
         Rates used for this calculation are based on last updated value at
@@ -146,7 +164,7 @@ export default {
   padding-top: 20px;
 }
 .padding2 {
-  padding-top: 150px;
+  padding-top: 100px;
   color: red;
 }
 </style>

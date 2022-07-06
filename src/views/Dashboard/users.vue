@@ -11,7 +11,8 @@
         class="w-[500px] bg-[#ECECEC] rounded-md flex ring-1 ring-[#B659A2CC]"
       >
         <input
-          type="text"
+          type="search"
+          v-model.trim="serachQuery"
           name="search"
           placeholder="Keyword : User Email or Description"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -24,7 +25,7 @@
       </div>
     </div>
     <div class="mt-24 table_overview">
-      <Table_Users :usersData="tableData" />
+      <Table_Users :usersData="filteredTableData" />
     </div>
   </div>
 </template>
@@ -41,10 +42,21 @@ export default {
     return {
       tableData: null,
       isLoading: false,
+      serachQuery: "",
     };
   },
   created() {
     this.fetchUsers();
+  },
+
+  computed: {
+    filteredTableData() {
+      if (this.tableData !== null) {
+        return this.tableData.results.filter((item) =>
+          item.email.toLowerCase().includes(this.serachQuery.toLowerCase())
+        );
+      }
+    },
   },
 
   methods: {

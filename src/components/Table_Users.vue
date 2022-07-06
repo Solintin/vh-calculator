@@ -20,9 +20,9 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="usersData.length > 0">
           <tr
-            v-for="({ email, id, user_type }, idx) in usersData.results"
+            v-for="({ email, id, user_type }, idx) in usersData"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
             } text-base font-medium hover:bg-gray-200`"
@@ -45,6 +45,11 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else class="flex justify-center">
+          <h1 class="text-center py-4 text-lg font-medium text-red-500">
+            No result found
+          </h1>
+        </tbody>
       </table>
     </div>
   </div>
@@ -52,18 +57,16 @@
 
 <!-- eslint-disable -->
 
-
 <script>
 import axios from "@/Utils/axios.config.js";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 
 export default {
   components: { Loading },
-  props: { usersData: Object, },
+  props: { usersData: Array },
   computed: {
     ...mapState(["loading"]),
-    
   },
   methods: {
     handleUserType(userType) {

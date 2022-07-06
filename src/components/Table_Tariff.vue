@@ -30,9 +30,9 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="tariffData.length > 0">
           <tr
-            v-for="(item, idx) in tariffData.results"
+            v-for="(item, idx) in tariffData"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
             } text-base font-medium hover:bg-gray-200`"
@@ -60,6 +60,11 @@
             </td>
           </tr>
         </tbody>
+         <tbody v-else class="flex justify-center">
+          <h1 class="text-center py-4 text-lg font-medium text-red-500">
+            No result found
+          </h1>
+        </tbody>
       </table>
       <Update_Tariff
         v-if="isUpdateTariff"
@@ -79,7 +84,7 @@ import Update_Tariff from "./Update_Tariff.vue";
 
 export default {
   components: { Loading, Update_Tariff },
-  props: { tariffData: Object },
+  props: { tariffData: Array },
   data() {
     return {};
   },
@@ -95,7 +100,7 @@ export default {
   methods: {
     update(item) {
       this.data = item;
-      this.isUpdateRate = !this.isUpdateRate;
+      this.isUpdateTariff = !this.isUpdateTariff;
     },
   },
 };
