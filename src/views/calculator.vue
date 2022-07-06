@@ -1,14 +1,21 @@
 <!-- eslint-disable -->
 <template>
-  <div class="py-[50px]">
-    <div class="mb-3 border-b border-purple-200 pl-10">
-      <div class="flex text-xl space-x-5 container mx-auto">
+  <div class="pb-[50px] pt-5">
+    <p
+      class=" text-lg font-medium my-5 pl-10 whitespace-nowrap truncate"
+    >
+      Welcome back {{ $store.state.currentUser.user.email }}!
+    </p>
+    <div
+      class="mb-3 border-b border-purple-200 pl-10 pr-5 flex justify-between"
+    >
+      <div class="flex text-base md:text-xl space-x-5 container mx-auto">
         <button
           @click="switchTab('help')"
           class="outline-none"
           :class="
             Tab === 'help'
-              ? 'border-b-2 border-[#DB44C9] px-1 text-[#DB44C9] transform-translate duration-300'
+              ? 'border-2 border-[#DB44C9] bg-[#DB44C9] rounded-t-lg px-3 text-white transform-translate duration-300'
               : 'text-gray-500'
           "
         >
@@ -19,13 +26,14 @@
           class="outline-none"
           :class="
             Tab === 'calculator'
-              ? 'border-b-2 border-[#DB44C9] px-1 text-[#DB44C9] transform-translate duration-300'
+              ? 'border-2 border-[#DB44C9] bg-[#DB44C9] rounded-t-lg px-3 text-white transform-translate duration-300'
               : 'text-gray-500'
           "
         >
           Calculator
         </button>
       </div>
+      <button @click="logout" class="block text-base md:text-xl ">Logout</button>
     </div>
 
     <Guide v-if="Tab === 'help'" />
@@ -85,6 +93,11 @@ export default {
 
     handleUpdateModal() {
       this.updateModal = !this.updateModal;
+    },
+
+    logout() {
+      this.$store.dispatch("logout");
+      this.$router.push("/");
     },
   },
 };

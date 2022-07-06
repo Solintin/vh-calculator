@@ -2,13 +2,13 @@
 <template>
   <div class="py-[50px]">
     <div class="mb-3 border-b border-purple-200 pl-10">
-      <div class="flex text-xl space-x-5 container mx-auto">
+      <div class="flex  space-x-5 container mx-auto">
         <button
           @click="switchTab('help')"
           class="outline-none"
           :class="
             Tab === 'help'
-              ? 'border-b-2 border-[#DB44C9] px-1 text-[#DB44C9] transform-translate duration-300'
+              ? 'border-b-2 border-[#DB44C9] px-1 text-base md:text-xl text-[#DB44C9] transform-translate duration-300'
               : 'text-gray-500'
           "
         >
@@ -19,7 +19,7 @@
           class="outline-none"
           :class="
             Tab === 'calculator'
-              ? 'border-b-2 border-[#DB44C9] px-1 text-[#DB44C9] transform-translate duration-300'
+              ? 'border-b-2 border-[#DB44C9] px-1 text-base md:text-xl text-[#DB44C9] transform-translate duration-300'
               : 'text-gray-500'
           "
         >
@@ -35,7 +35,6 @@
 <!-- eslint-disable -->
 
 <script>
-import { ref } from "vue";
 import Guide from "@/components/Guide.vue";
 import Calculator from "@/components/MainCalculator.vue";
 export default {

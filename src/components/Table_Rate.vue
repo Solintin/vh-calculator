@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div>
-      <Loading v-if="loading" />
+    <Loading v-if="loading" />
 
     <div
       v-else
@@ -26,30 +26,32 @@
         </thead>
         <tbody>
           <tr
-            v-for="(
-              { exchange_rate, currency_name, currency_code }, idx
-            ) in rateData.results"
+            v-for="(item, idx) in rateData.results"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
-            } text-base font-medium cursor-pointer hover:bg-gray-200`"
+            } text-base font-medium  hover:bg-gray-200`"
             :key="idx"
           >
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              {{ currency_name }}
+              {{ item.currency_name }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              {{ currency_code }}
+              {{ item.currency_code }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              {{ exchange_rate }}
+              {{ item.exchange_rate }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              <i class="fa-solid fa-pen-to-square"></i>
+              <button class="cursor-pointer" @click="update(item)">
+                <i class="fa-solid fa-pen-to-square hover:text-[#B659A2CC]"></i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <Update_Rate 
+    v-if="isUpdateRate" :item="data" :setUpdateModal="update" />
   </div>
 </template>
 
@@ -58,16 +60,26 @@
 <script>
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
+import Update_Rate from "./Update_Rate.vue";
 
 export default {
-  components: { Loading },
+  components: { Loading, Update_Rate },
   props: { rateData: Object, loadng: Boolean },
-   computed: {
+  computed: {
     ...mapState(["loading"]),
-    
   },
-  
+  data() {
+    return {
+      data: null,
+      isUpdateRate: false,
+    };
+  },
+  methods: {
+    update(item) {
+      this.data = item;
+      this.isUpdateRate = !this.isUpdateRate;
+    },
+  },
 };
 </script>
 <!-- eslint-disable -->
-

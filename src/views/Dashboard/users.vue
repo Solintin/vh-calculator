@@ -44,11 +44,11 @@ export default {
     };
   },
   created() {
-    this.fetchCalculations();
+    this.fetchUsers();
   },
 
   methods: {
-    async fetchCalculations() {
+    async fetchUsers() {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;
 

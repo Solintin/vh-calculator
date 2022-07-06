@@ -4,6 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import createPersistedState from "vuex-persistedstate";
+import Cookies from "js-cookie";
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
@@ -15,12 +16,14 @@ export default new Vuex.Store({
     calculationData: undefined,
     isLoggedIn: false,
     loading: false,
-    currentUser: null,
+    currentUser: undefined,
+    userType : ""
   },
 
   actions: {
     setUser({ commit }, user) {
       commit("SET_USER", user);
+      Cookies.set("token", user.token);
     },
     setUserList({ commit }, items) {
       commit("SET_USER_LIST", items);
@@ -43,12 +46,14 @@ export default new Vuex.Store({
 
     logout({ commit }) {
       commit("LOGOUT");
+      Cookies.remove("token");
     },
   },
 
   mutations: {
     SET_USER(state, user) {
       state.currentUser = user;
+      state.userType = user.user.user_type;
       state.isLoggedIn = true;
     },
     SET_USER_LIST(state, items) {
@@ -78,6 +83,7 @@ export default new Vuex.Store({
       state.isLoggedIn = false;
       state.loading = false;
       state.currentUser = null;
+      state.userType = "";
     },
   },
   getters: {

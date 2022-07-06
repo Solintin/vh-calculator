@@ -8,7 +8,27 @@ import Rate from "@/views/Dashboard/rate.vue";
 import Overview from "@/views/Dashboard/overview.vue";
 import Users from "@/views/Dashboard/users.vue";
 import Calculator from "@/views/Dashboard/calculator.vue";
+import store from "@/store";
 
+const routeGuard = (to, from, next) => {
+  const { userType } = store.getters.data;
+  const { isLoggedIn } = store.getters.data;
+
+  if (
+    to.matched.some((record) => record.meta.requiresClientLogin) &&
+    isLoggedIn
+  ) {
+    next();
+  } else if (
+    to.matched.some((record) => record.meta.requiresLogin) &&
+    userType === "Super Admin" &&
+    isLoggedIn
+  ) {
+    next();
+  } else {
+    next("/");
+  }
+};
 Vue.use(VueRouter);
 
 const routes = [
@@ -19,8 +39,12 @@ const routes = [
   },
   {
     path: "/calculator",
-    name: "calculator",
+    name: "calculator-app",
     component: Client_Calculator,
+    meta: {
+      requiresClientLogin: true,
+    },
+    beforeEnter: routeGuard,
   },
   {
     path: "/register",
@@ -36,21 +60,37 @@ const routes = [
         path: "users",
         name: "users",
         component: Users,
+        meta: {
+          requiresLogin: true,
+        },
+        beforeEnter: routeGuard,
       },
       {
         path: "calculator",
         name: "calculator",
         component: Calculator,
+        meta: {
+          requiresLogin: true,
+        },
+        beforeEnter: routeGuard,
       },
       {
         path: "rate",
         name: "rate",
         component: Rate,
+        meta: {
+          requiresLogin: true,
+        },
+        beforeEnter: routeGuard,
       },
       {
         path: "overview",
         name: "overview",
         component: Overview,
+        meta: {
+          requiresLogin: true,
+        },
+        beforeEnter: routeGuard,
       },
     ],
   },

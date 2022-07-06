@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div>
-      <Loading v-if="loading" />
+    <Loading v-if="loading" />
 
     <div
       v-else
@@ -32,59 +32,71 @@
         </thead>
         <tbody>
           <tr
-            v-for="({ su, hs_description, hscode, id_tariff, vat }, idx) in tariffData.results"
+            v-for="(item, idx) in tariffData.results"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
-            } text-base font-medium cursor-pointer hover:bg-gray-200`"
+            } text-base font-medium hover:bg-gray-200`"
             :key="idx"
           >
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              {{ hs_description }}
+              {{ item.hs_description }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              {{ hscode }}
+              {{ item.hscode }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              {{ su }}
+              {{ item.su }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              {{ id_tariff }}
+              {{ item.id_tariff }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              {{ vat }}
+              {{ item.vat }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
-              <i class="fa-solid fa-pen-to-square"></i>
+              <button class="cursor-pointer" @click="update(item)">
+                <i class="fa-solid fa-pen-to-square hover:text-[#B659A2CC]"></i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
+      <Update_Tariff
+        v-if="isUpdateTariff"
+        :item="data"
+        :setUpdateModal="update"
+      />
     </div>
   </div>
 </template>
 
 <!-- eslint-disable -->
 
-
-
-
-
-
-
-
 <script>
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
+import Update_Tariff from "./Update_Tariff.vue";
 
 export default {
-  components: { Loading },
-  props: { tariffData: Object, },
+  components: { Loading, Update_Tariff },
+  props: { tariffData: Object },
   data() {
     return {};
   },
   computed: {
     ...mapState(["loading"]),
-    
+  },
+  data() {
+    return {
+      data: null,
+      isUpdateTariff: false,
+    };
+  },
+  methods: {
+    update(item) {
+      this.data = item;
+      this.isUpdateRate = !this.isUpdateRate;
+    },
   },
 };
 </script>

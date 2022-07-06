@@ -2,30 +2,30 @@
 
 <template>
   <div class="layout">
-    <div class="update_box space-y-8">
+    <div class="update_box py-8 px-4 md:px-8 space-y-8">
       <h1 class="text-xl font-medium text-center mb-3 underline">
         Calculation Details
       </h1>
 
-      <div class="divide-y-4 capitalize text-lg font-medium">
+      <div class="divide-y-4 capitalize text-base md:text-lg font-medium">
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
-          <div>NGN {{ digitFormatter(result.result) }}</div>
+          <div class="ml-2">NGN {{ digitFormatter(result.result) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
-          <div>NGN {{ digitFormatter(result.total) }}</div>
+          <div class="ml-2">NGN {{ digitFormatter(result.total) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
-          <div>
+          <div class="ml-2">
             {{ result.selectedCurrency.currency_code}}
             {{ digitFormatter(result.result_NGN) }}
           </div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
-          <div>
+          <div class="ml-2">
             {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.total_NGN) }}
           </div>
         </div>
@@ -105,7 +105,7 @@ export default {
       return {
         margin: 0,
 
-        filename: "hee hee.pdf",
+        filename: "Result.pdf",
 
         image: {
           type: "jpeg",
@@ -147,6 +147,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
+  max-height: 100vh;
   z-index: 1;
   background: rgba(0, 0, 0, 0.65);
   display: grid;
@@ -156,7 +157,6 @@ export default {
 .update_box {
   @apply shadow-lg bg-white rounded-lg;
   z-index: 2;
-  padding: 2rem;
-  width: 500px;
+  min-width: 375px;
 }
 </style>

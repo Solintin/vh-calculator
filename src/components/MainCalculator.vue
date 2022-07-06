@@ -1,6 +1,6 @@
 <!-- eslint-disable -->
 <template>
-  <div class="px-10 container mx-auto">
+  <div class="md:px-10 container mx-auto">
     <div class="table_calculator">
       <h1 class="my-2 text-center text-[#B659A2] text-2xl font-bold">
         Duty Calculator
@@ -30,7 +30,7 @@
             </div>
             <div
               v-if="showHscode"
-              class="absolute bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
+              class="absolute z-[2] bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
             >
               <div v-if="filteredCetcode.length > 0">
                 <div
@@ -76,9 +76,9 @@
               v-if="showHscodeDesc"
               class="absolute bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
             >
-              <div v-if="filteredCetcode.length > 0">
+              <div v-if="filteredCetDesc.length > 0">
                 <div
-                  v-for="(item, idx) in filteredCetcode"
+                  v-for="(item, idx) in filteredCetDesc"
                   :key="idx"
                   @click="setHscode(item)"
                   class="p-4 mt-1 bg-gray-100 hover:bg-gray-300"
@@ -289,7 +289,7 @@ export default {
 
 
   computed: {
-    ...mapState(["tariffsList", "ratesList"]),
+    ...mapState(["calculationData", "tariffsList"]),
     resultInfo() {
       return {
         ...this.result.details.detail,
@@ -302,16 +302,20 @@ export default {
       };
     },
     filteredCetcode() {
-      return this.tariffsList.results.filter((item) =>
-        this.selectedCode.description.length > 0
-          ? item.hs_description
+      return this.calculationData.tariff.filter((item) =>
+        item.hscode.includes(this.selectedCode.code)
+      );
+    },
+    filteredCetDesc() {
+      return this.calculationData.tariff.filter((item) =>
+         item.hs_description
               .toLowerCase()
               .includes(this.selectedCode.description.toLowerCase())
-          : item.hscode.includes(this.selectedCode.code)
+         
       );
     },
     filteredCurrency() {
-      return this.ratesList.results.filter((item) =>
+      return this.calculationData.rate.filter((item) =>
         item.currency_code
           .toLowerCase()
           .includes(this.selectedCurrency.currency_code.toLowerCase())
