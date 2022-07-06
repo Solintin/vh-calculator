@@ -164,7 +164,7 @@ export default {
   padding-top: 20px;
 }
 .padding2 {
-  padding-top: 100px;
+  padding-top: 40px;
   color: red;
 }
 </style>
