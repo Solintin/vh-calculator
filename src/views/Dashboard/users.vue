@@ -25,7 +25,13 @@
       </div>
     </div>
     <div class="mt-24 table_overview">
-      <Table_Users :usersData="filteredTableData" />
+      <Table_Users
+        :usersData="filteredTableData"
+        :next="next"
+        :prev="prev"
+        :nextHandler="nextHandler"
+        :prevHandler="prevHandler"
+      />
     </div>
   </div>
 </template>
@@ -43,9 +49,12 @@ export default {
       tableData: null,
       isLoading: false,
       serachQuery: "",
+      next: "",
+      prev: null,
+      url: "/account/user/",
     };
   },
-  created() {
+  mounted() {
     this.fetchUsers();
   },
 
@@ -71,11 +80,31 @@ export default {
           this.isLoading = false;
           // userList(response.data);
           this.tableData = response.data;
+          this.prev = response.data.previous;
+          this.next = response.data.next;
         })
         .catch((error) => {
           this.$store.dispatch("setLoading", false);
           this.isLoading = false;
         });
+    },
+    nextHandler() {
+      //Get next string api
+      const getNextApi = this.next.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.url = getNextApi;
+      this.fetchUsers(this.url);
+    },
+    prevHandler() {
+      //Get Prev string api
+      const getPrevApi = this.prev.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.url = getPrevApi;
+      this.fetchUsers(this.url);
     },
   },
 };

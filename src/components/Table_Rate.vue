@@ -24,7 +24,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="rateData.length > 0">
+        <tbody v-if="rateData && rateData.length > 0">
           <tr
             v-for="(item, idx) in rateData"
             :class="`${
@@ -54,6 +54,32 @@
           </h1>
         </tbody>
       </table>
+      <div class="flex justify-between px-10 items-center mt-5">
+        <button
+          @click="prevHandler"
+          :disabled="prev === null"
+          :class="
+            prev === null
+              ? 'bg-green-200 cursor-not-allowed'
+              : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Prev
+        </button>
+        <button
+          @click="nextHandler"
+          :disabled="next === null"
+          :class="
+            next === null
+              ? 'bg-green-200 cursor-not-allowed'
+              : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Next
+        </button>
+      </div>
     </div>
     <Update_Rate v-if="isUpdateRate" :item="data" :setUpdateModal="update" />
   </div>
@@ -68,7 +94,14 @@ import Update_Rate from "./Update_Rate.vue";
 
 export default {
   components: { Loading, Update_Rate },
-  props: { rateData: Array, loadng: Boolean },
+  props: {
+    rateData: Array,
+    loadng: Boolean,
+    prev: String,
+    next: String,
+    nextHandler: Function,
+    prevHandler: Function,
+  },
   computed: {
     ...mapState(["loading"]),
   },
@@ -77,6 +110,9 @@ export default {
       data: null,
       isUpdateRate: false,
     };
+  },
+  mounted() {
+console.log(this.prevRate);
   },
   methods: {
     update(item) {

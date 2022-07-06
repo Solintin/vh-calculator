@@ -60,8 +60,22 @@
       </div>
     </div>
     <div class="mt-24 table_rate">
-      <Table_Rate v-if="Tab === 'rate'" :rateData="filteredRateData" />
-      <Table_Tariff v-if="Tab === 'tarrif'" :tariffData="filteredTariffData" />
+      <Table_Rate
+        v-if="Tab === 'rate'"
+        :rateData="filteredRateData"
+        :next="nextRate"
+        :prev="prevRate"
+        :nextHandler="nextHandler"
+        :prevHandler="prevHandler"
+      />
+      <Table_Tariff
+        v-if="Tab === 'tarrif'"
+        :tariffData="filteredTariffData"
+        :next="nextTariff"
+        :prev="prevTariff"
+        :nextHandler="nextHandler"
+        :prevHandler="prevHandler"
+      />
     </div>
     <Update
       v-if="updateModal"
@@ -91,6 +105,12 @@ export default {
       tariffData: null,
       rateData: null,
       serachQuery: "",
+      prevRate: "",
+      prevTariff: "",
+      nextRate: "",
+      nextTariff: "",
+      urlRate: "/api/v1/rate/",
+      urlTariff: "/api/v1/tariff/",
     };
   },
 
@@ -120,7 +140,7 @@ export default {
               .includes(this.serachQuery.toLowerCase()) ||
             item.currency_code
               .toLowerCase()
-              .includes(this.serachQuery.toLowerCase()) 
+              .includes(this.serachQuery.toLowerCase())
         );
       }
     },
@@ -139,23 +159,30 @@ export default {
       }
     },
   },
-  created() {
-    this.rate();
+  mounted() {
+    this.rate(this.urlRate, this.urlTariff);
   },
 
   methods: {
-    async rate() {
+    async rate(urlRate, urlTariff) {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;
 
       try {
         const [response1, response2, response3] = await Promise.all([
-          axios.get("/api/v1/tariff/"),
-          axios.get("/api/v1/rate/"),
+          axios.get(urlTariff),
+          axios.get(urlRate),
           axios.get("/api/v1/data/"),
         ]);
         this.tariffData = response1.data;
         this.rateData = response2.data;
+        
+        this.prevRate = response2.data.previous;
+        this.nextRate = response2.data.next;
+        this.prevTariff = response1.data.previous;
+        this.nextTariff = response1.data.next;
+        console.log(this.nextTariff);
+
 
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
@@ -177,6 +204,34 @@ export default {
 
     handleUpdateModal() {
       this.updateModal = !this.updateModal;
+    },
+    nextHandler() {
+      //Get next string api
+      const getNextRateApi = this.nextRate.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      const getNextTariffApi = this.nextTariff.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.urlRate = getNextRateApi;
+      this.urlTariff = getNextTariffApi;
+      this.rate(this.urlRate, this.urlTariff);
+    },
+    prevHandler() {
+      //Get Prev string api
+      const getPrevRateApi = this.prevRate.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      const getPrevTariffApi = this.prevTariff.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.urlRate = getPrevRateApi;
+      this.urlTariff = getPrevTariffApi;
+      this.rate(this.urlRate, this.urlTariff);
     },
   },
 };

@@ -23,7 +23,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="filteredTableData.length > 0">
+        <tbody v-if="filteredTableData && filteredTableData.length > 0">
           <tr
             v-for="(
               { duty, user, description, cost }, idx
@@ -55,8 +55,26 @@
       </table>
 
       <div class="flex justify-between px-10 items-center mt-5">
-        <button class="py-2 px-6 bg-green-500 text-white rounded">Prev</button>
-        <button class="py-2 px-6 bg-green-500 text-white rounded">Next</button>
+        <button
+          @click="prevHandler"
+          :disabled="prev === null"
+          :class="
+            prev === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Prev
+        </button>
+        <button
+          @click="nextHandler"
+          :disabled="next === null"
+          :class="
+            next === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Next
+        </button>
       </div>
     </div>
   </div>
@@ -68,7 +86,14 @@ import Loading from "./Loading.vue";
 
 export default {
   components: { Loading },
-  props: { filteredTableData: Array, loadng: Boolean },
+  props: {
+    filteredTableData: Array,
+    loadng: Boolean,
+    prev: String,
+    next: String,
+    nextHandler: Function,
+    prevHandler: Function,
+  },
   data() {
     return {};
   },

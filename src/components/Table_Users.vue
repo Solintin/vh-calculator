@@ -20,7 +20,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="usersData.length > 0">
+        <tbody v-if="usersData && usersData.length > 0">
           <tr
             v-for="({ email, id, user_type }, idx) in usersData"
             :class="`${
@@ -51,6 +51,28 @@
           </h1>
         </tbody>
       </table>
+      <div class="flex justify-between px-10 items-center mt-5">
+        <button
+          @click="prevHandler"
+          :disabled="prev === null"
+          :class="
+            prev === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Prev
+        </button>
+        <button
+          @click="nextHandler"
+          :disabled="next === null"
+          :class="
+            next === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -64,7 +86,13 @@ import Loading from "./Loading.vue";
 
 export default {
   components: { Loading },
-  props: { usersData: Array },
+  props: {
+    usersData: Array,
+    prev: String,
+    next: String,
+    nextHandler: Function,
+    prevHandler: Function,
+  },
   computed: {
     ...mapState(["loading"]),
   },

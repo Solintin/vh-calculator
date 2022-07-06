@@ -30,7 +30,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="tariffData.length > 0">
+        <tbody v-if="tariffData && tariffData.length > 0">
           <tr
             v-for="(item, idx) in tariffData"
             :class="`${
@@ -60,18 +60,40 @@
             </td>
           </tr>
         </tbody>
-         <tbody v-else class="flex justify-center">
+        <tbody v-else class="flex justify-center">
           <h1 class="text-center py-4 text-lg font-medium text-red-500">
             No result found
           </h1>
         </tbody>
       </table>
-      <Update_Tariff
-        v-if="isUpdateTariff"
-        :item="data"
-        :setUpdateModal="update"
-      />
+      <div class="flex justify-between px-10 items-center mt-5">
+        <button
+          @click="prevHandler"
+          :disabled="prev === null"
+          :class="
+            prev === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Prev
+        </button>
+        <button
+          @click="nextHandler"
+          :disabled="next == null"
+          :class="
+            next == null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
+          "
+          class="py-2 px-6 text-white text-xl font-medium rounded"
+        >
+          Next
+        </button>
+      </div>
     </div>
+    <Update_Tariff
+      v-if="isUpdateTariff"
+      :item="data"
+      :setUpdateModal="update"
+    />
   </div>
 </template>
 
@@ -84,7 +106,13 @@ import Update_Tariff from "./Update_Tariff.vue";
 
 export default {
   components: { Loading, Update_Tariff },
-  props: { tariffData: Array },
+  props: {
+    tariffData: Array,
+    prev: String,
+    next: String,
+    nextHandler: Function,
+    prevHandler: Function,
+  },
   data() {
     return {};
   },

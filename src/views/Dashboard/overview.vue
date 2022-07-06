@@ -29,6 +29,8 @@
         :loading="isLoading"
         :next="next"
         :prev="prev"
+        :nextHandler="nextHandler"
+        :prevHandler="prevHandler"
       />
     </div>
   </div>
@@ -47,12 +49,13 @@ export default {
       tableData: null,
       isLoading: false,
       serachQuery: "",
-      prev: null,
-      next: null,
+      prev: "",
+      next: "",
+      url: "/api/v1/calculation/",
     };
   },
-  created() {
-    this.fetchCalculations();
+  mounted() {
+    this.fetchCalculations(this.url);
   },
 
   computed: {
@@ -65,12 +68,12 @@ export default {
     },
   },
   methods: {
-    async fetchCalculations() {
+    async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;
 
       await axios
-        .get("/api/v1/calculation/")
+        .get(url)
         .then((response) => {
           this.$store.dispatch("setLoading", false);
           this.isLoading = false;
@@ -84,11 +87,25 @@ export default {
           this.isLoading = false;
         });
     },
-    nextHandler(){
-      //Get next string api
-      const getNextApi = this.next.replace("https://valuehandler.herokuapp.com", "")
 
-    }
+    nextHandler() {
+      //Get next string api
+      const getNextApi = this.next.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.url = getNextApi;
+      this.fetchCalculations(this.url);
+    },
+    prevHandler() {
+      //Get Prev string api
+      const getPrevApi = this.prev.replace(
+        "https://valuehandler.herokuapp.com",
+        ""
+      );
+      this.url = getPrevApi;
+      this.fetchCalculations(this.url);
+    },
   },
 };
 </script>
