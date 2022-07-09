@@ -2,7 +2,7 @@
 <template>
   <div class="pb-[50px] pt-5">
     <p
-      class=" text-lg font-medium my-5 pl-10 whitespace-nowrap truncate"
+      class=" text-lg font-medium my-5 pl-5 whitespace-nowrap truncate"
     >
       Welcome back {{ $store.state.currentUser.user.email }}!
     </p>

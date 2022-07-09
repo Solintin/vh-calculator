@@ -8,7 +8,7 @@
         </h1>
         <div class="my-3 grid md:grid-cols-2 gap-6">
           <div>
-            <label for="hscode" class="font-medium text-base">HS-CODE</label>
+            <label for="hscode" class="font-medium text-sm md:text-base">HS-CODE</label>
             <div
               class="mt-2 w-full cursor-pointer items-center relative px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
             >
@@ -19,7 +19,7 @@
                   min="0"
                   required
                   placeholder="Select HSCODE Code"
-                  class="text-xl truncate outline-none w-full bg-transparent"
+                  class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
                   v-model="selectedCode.code"
                 />
                 <button
@@ -51,7 +51,7 @@
             </div>
           </div>
           <div>
-            <label for="hscode" class="font-medium text-base"
+            <label for="hscode" class="font-medium text-sm md:text-base"
               >HS-CODE Description</label
             >
             <div
@@ -63,7 +63,7 @@
                   required
                   placeholder="HS Description"
                   type="text"
-                  class="text-xl truncate outline-none w-full bg-transparent"
+                  class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
                   v-model="selectedCode.description"
                 />
 
@@ -98,7 +98,7 @@
         </div>
 
         <div class="mt-5 w-full cursor-pointer flex flex-col space-y-4">
-          <label for="hscode" class="font-medium text-base"
+          <label for="hscode" class="font-medium text-sm md:text-base"
             >Item Description</label
           >
 
@@ -106,7 +106,7 @@
             required
             placeholder="Item description"
             type="text"
-            class="text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+            class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
             v-model="item.description"
           />
         </div>
@@ -114,7 +114,7 @@
         <div class="mt-6 border-t-2 border-[#ECD0E9] w-full py-4 space-y-4">
           <div class="my-3 grid md:grid-cols-2 gap-6">
             <div>
-              <label for="hscode" class="font-medium text-base uppercase"
+              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
                 >Currency</label
               >
               <div
@@ -126,7 +126,7 @@
                     @focus="setShowCurrency('focus')"
                     required
                     placeholder="Click to select currency"
-                    class="text-xl truncate outline-none w-full bg-transparent"
+                    class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
                     v-model="selectedCurrency.currency_code"
                   />
                   <button
@@ -159,7 +159,7 @@
             </div>
             <div>
               <div class="flex items-center justify-between mb-2">
-                <label for="hscode" class="font-medium text-base uppercase"
+                <label for="hscode" class="font-medium text-sm md:text-base uppercase"
                   >Insurance ({{ insuranceType }})
                 </label>
                 <div class="flex items-center gap-3">
@@ -202,7 +202,7 @@
                 type="number"
                 step="any"
                 min="0"
-                class="text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.insurance"
               />
             </div>
@@ -210,7 +210,7 @@
 
           <div class="my-3 grid md:grid-cols-2 gap-6">
             <div>
-              <label for="hscode" class="font-medium text-base uppercase"
+              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
                 >FOB</label
               >
               <input
@@ -219,12 +219,12 @@
                 type="number"
                 step="any"
                 min="0"
-                class="text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.fob"
               />
             </div>
             <div>
-              <label for="hscode" class="font-medium text-base uppercase"
+              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
                 >FREIGHT</label
               >
 
@@ -234,7 +234,7 @@
                 type="number"
                 min="0"
                 step="any"
-                class="text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.freight"
               />
             </div>
@@ -243,7 +243,7 @@
 
         <div class="my-10 flex justify-center">
           <input
-            class="bg-[#B659A2] text-white cursor-pointer font-bold text-xl px-8 py-3 flex justify-center rounded-md max-w-max uppercase"
+            class="bg-[#B659A2] text-white cursor-pointer font-bold text-sm md:text-xl px-8 py-3 flex justify-center rounded-md max-w-max uppercase"
             :class="loading ? 'cursor-wait' : null"
             :value="loading ? 'Calculating...' : 'Calculate'"
             type="submit"

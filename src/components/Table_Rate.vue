@@ -5,21 +5,21 @@
 
     <div
       v-else
-      className="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6 "
+      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6 "
     >
-      <table className="w-full items-center table-auto ">
+      <table class="w-full items-center table-auto ">
         <thead>
-          <tr className="font-bold  bg-[#DBEBFF]">
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+          <tr class="font-bold  bg-[#DBEBFF]">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
               Currency Name
             </th>
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
               Currency Code
             </th>
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
               Exchange rate (₦)
             </th>
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
               Edit
             </th>
           </tr>
@@ -54,31 +54,14 @@
           </h1>
         </tbody>
       </table>
-      <div v-if="rateData && rateData.length > 0" class="flex justify-between px-10 items-center mt-5">
-        <button
-          @click="prevHandler"
-          :disabled="prev === null"
-          :class="
-            prev === null
-              ? 'bg-green-200 cursor-not-allowed'
-              : 'bg-green-500 '
-          "
-          class="py-2 px-6 text-white text-xl font-medium rounded"
-        >
-          Prev
-        </button>
-        <button
-          @click="nextHandler"
-          :disabled="next === null"
-          :class="
-            next === null
-              ? 'bg-green-200 cursor-not-allowed'
-              : 'bg-green-500 '
-          "
-          class="py-2 px-6 text-white text-xl font-medium rounded"
-        >
-          Next
-        </button>
+      <div v-if="rateData && rateData.length > 0" 
+      >
+       <Pagination
+          :next="next"
+          :prev="prev"
+          :nextHandler="nextHandler"
+          :prevHandler="prevHandler"
+        />
       </div>
     </div>
     <Update_Rate v-if="isUpdateRate" :item="data" :setUpdateModal="update" />
@@ -91,9 +74,11 @@
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 import Update_Rate from "./Update_Rate.vue";
+import Pagination from "./DataPagination.vue";
+
 
 export default {
-  components: { Loading, Update_Rate },
+  components: { Loading, Update_Rate, Pagination },
   props: {
     rateData: Array,
     loadng: Boolean,

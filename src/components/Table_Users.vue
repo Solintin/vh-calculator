@@ -4,18 +4,18 @@
     <Loading v-if="loading" />
     <div
       v-else
-      className="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6 "
+      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6"
     >
-      <table className="w-full items-center table-auto ">
+      <table class="w-full items-center table-auto">
         <thead>
-          <tr className="font-bold  bg-[#DBEBFF]">
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+          <tr class="font-bold bg-[#DBEBFF]">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               User Email
             </th>
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Item Role
             </th>
-            <th className="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Action
             </th>
           </tr>
@@ -51,30 +51,13 @@
           </h1>
         </tbody>
       </table>
-      <div
-        v-if="usersData && usersData.length > 0"
-        class="flex justify-between px-10 items-center mt-5"
-      >
-        <button
-          @click="prevHandler"
-          :disabled="prev === null"
-          :class="
-            prev === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
-          "
-          class="py-2 px-6 text-white text-xl font-medium rounded"
-        >
-          Prev
-        </button>
-        <button
-          @click="nextHandler"
-          :disabled="next === null"
-          :class="
-            next === null ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 '
-          "
-          class="py-2 px-6 text-white text-xl font-medium rounded"
-        >
-          Next
-        </button>
+      <div v-if="usersData && usersData.length > 0">
+        <Pagination
+          :next="next"
+          :prev="prev"
+          :nextHandler="nextHandler"
+          :prevHandler="prevHandler"
+        />
       </div>
     </div>
   </div>
@@ -86,9 +69,10 @@
 import axios from "@/Utils/axios.config.js";
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
+import Pagination from "./DataPagination.vue";
 
 export default {
-  components: { Loading },
+  components: { Loading, Pagination },
   props: {
     usersData: Array,
     prev: String,

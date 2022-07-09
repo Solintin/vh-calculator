@@ -142,7 +142,7 @@ export default {
 
 <style scoped>
 .layout {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
