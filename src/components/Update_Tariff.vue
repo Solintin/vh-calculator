@@ -103,6 +103,13 @@
 <script>
 import axios from "@/Utils/axios.config.js";
 import { digitFormatter } from "@/Utils/helper_function";
+import Cookies from "js-cookie";
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 
 export default {
   components: {},
@@ -149,7 +156,7 @@ export default {
           levy: this.levy,
           vat: this.vat,
           e_duty: this.e_duty,
-        })
+        }, axiosConfig)
         .then((response) => {
           location.reload();
           this.loading = false;

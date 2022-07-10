@@ -1,9 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div class="pb-[50px] pt-5">
-    <p
-      class=" text-lg font-medium my-5 pl-5 whitespace-nowrap truncate"
-    >
+    <p class="text-lg font-medium my-5 pl-5 whitespace-nowrap truncate">
       Welcome back {{ $store.state.currentUser.user.email }}!
     </p>
     <div
@@ -33,7 +31,7 @@
           Calculator
         </button>
       </div>
-      <button @click="logout" class="block text-base md:text-xl ">Logout</button>
+      <button @click="logout" class="block text-base md:text-xl">Logout</button>
     </div>
 
     <Guide v-if="Tab === 'help'" />
@@ -46,39 +44,41 @@
 import Guide from "@/components/Guide.vue";
 import Calculator from "@/components/MainCalculator.vue";
 import axios from "@/Utils/axios.config.js";
+import Cookies from "js-cookie";
 
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   name: "calculator-app",
   components: { Guide, Calculator },
   data() {
     return {
       Tab: "help",
-      isLoading: false,
+      isLoading: true,
     };
   },
 
-  created() {
-    this.rate();
+  mounted() {
+    this.getCalculationData();
   },
 
   methods: {
-    async rate() {
+    async getCalculationData() {
       this.$store.dispatch("setLoading", true);
-      this.isLoading = true;
 
       try {
-        const [response1, response2, response3] = await Promise.all([
-          axios.get("/api/v1/tariff/"),
-          axios.get("/api/v1/rate/"),
-          axios.get("/api/v1/data/"),
+        const [response] = await Promise.all([
+          axios.get("/api/v1/data/", axiosConfig),
         ]);
 
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("fetchCalculationData", response3.data);
-        this.$store.dispatch("rateList", response2.data);
-        this.$store.dispatch("tariffList", response1.data);
+        this.$store.dispatch("fetchCalculationData", response.data);
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;

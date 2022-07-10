@@ -2,7 +2,9 @@
 <template>
   <div class="py-[50px]">
     <div class="mb-3 border-b border-purple-200 pl-10">
-      <div class="flex text-base md:text-2xl font-medium space-x-5 container mx-auto">
+      <div
+        class="flex text-base md:text-2xl font-medium space-x-5 container mx-auto"
+      >
         <button
           @click="switchTab('help')"
           class="outline-none"
@@ -37,6 +39,16 @@
 <script>
 import Guide from "@/components/Guide.vue";
 import Calculator from "@/components/MainCalculator.vue";
+import axios from "@/Utils/axios.config.js";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
 export default {
   name: "calculator-app",
   components: { Guide, Calculator },
@@ -46,9 +58,32 @@ export default {
     };
   },
 
+  mounted() {
+    this.getCalculationData();
+  },
   methods: {
     switchTab(currentTab) {
       this.Tab = currentTab;
+    },
+
+    async getCalculationData() {
+      this.$store.dispatch("setLoading", true);
+
+      try {
+        const [response] = await Promise.all([
+          axios.get("/api/v1/data/", axiosConfig),
+        ]);
+
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        this.$store.dispatch("fetchCalculationData", response.data);
+      } catch (err) {
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        console.log(err);
+      }
     },
   },
 };

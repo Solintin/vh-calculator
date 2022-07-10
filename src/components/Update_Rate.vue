@@ -68,7 +68,13 @@
 <script>
 import axios from "@/Utils/axios.config.js";
 import { digitFormatter } from "@/Utils/helper_function";
-
+import Cookies from "js-cookie";
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   components: {},
   props: {
@@ -98,12 +104,16 @@ export default {
       e.preventDefault();
       this.loading = true;
       axios
-        .put(`/api/v1/rate/${this.item.id}/`, {
-          id: this.item.id,
-          currency_name: this.currency_name,
-          currency_code: this.currency_code,
-          exchange_rate: this.exchange_rate,
-        })
+        .put(
+          `/api/v1/rate/${this.item.id}/`,
+          {
+            id: this.item.id,
+            currency_name: this.currency_name,
+            currency_code: this.currency_code,
+            exchange_rate: this.exchange_rate,
+          },
+          axiosConfig
+        )
         .then((response) => {
           location.reload();
           this.loading = false;

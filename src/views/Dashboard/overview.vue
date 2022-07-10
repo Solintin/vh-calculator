@@ -1,37 +1,39 @@
 <!-- eslint-disable -->
 <template>
-  <div class="py-[50px] px-[70px]">
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-2xl font-bold text-[#515352]">Recent Calculations</h1>
-      </div>
+  <div>
+    <div class="py-[50px] px-[70px]">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold text-[#515352]">Recent Calculations</h1>
+        </div>
 
-      <div
-        class="w-[500px] bg-[#ECECEC] rounded-md flex ring-1 ring-[#B659A2CC]"
-      >
-        <input
-          type="search"
-          v-model.trim="serachQuery"
-          name="search"
-          placeholder="Keyword : User Email or Description"
-          class="bg-transparent w-full border-none outline-none flex-1 p-3"
-        />
         <div
-          class="icon w-12 max-h-full bg-[#B659A2] rounded-r-md grid place-content-center ml-2"
+          class="w-[500px] bg-[#ECECEC] rounded-md flex ring-1 ring-[#B659A2CC]"
         >
-          <i class="fa-solid fa-search text-white text-xl"></i>
+          <input
+            type="search"
+            v-model.trim="serachQuery"
+            name="search"
+            placeholder="Keyword : User Email or Description"
+            class="bg-transparent w-full border-none outline-none flex-1 p-3"
+          />
+          <div
+            class="icon w-12 max-h-full bg-[#B659A2] rounded-r-md grid place-content-center ml-2"
+          >
+            <i class="fa-solid fa-search text-white text-xl"></i>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="mt-24 table_overview">
-      <Table_Overview
-        :filteredTableData="filteredTableData"
-        :loading="isLoading"
-        :next="next"
-        :prev="prev"
-        :nextHandler="nextHandler"
-        :prevHandler="prevHandler"
-      />
+      <div class="mt-24 table_overview">
+        <Table_Overview
+          :filteredTableData="filteredTableData"
+          :loading="isLoading"
+          :next="next"
+          :prev="prev"
+          :nextHandler="nextHandler"
+          :prevHandler="prevHandler"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +42,14 @@
 <script>
 import axios from "@/Utils/axios.config.js";
 import Table_Overview from "../../components/Table_Overview.vue";
+import Cookies from "js-cookie";
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
 export default {
   name: "overview",
   components: { Table_Overview },
@@ -47,7 +57,7 @@ export default {
   data() {
     return {
       tableData: null,
-      isLoading: false,
+      isLoading: true,
       serachQuery: "",
       prev: "",
       next: "",
@@ -55,7 +65,10 @@ export default {
     };
   },
   mounted() {
-    this.fetchCalculations(this.url);
+    const token = Cookies.get("token");
+    if (token) {
+      this.fetchCalculations(this.url);
+    }
   },
 
   computed: {
@@ -70,10 +83,9 @@ export default {
   methods: {
     async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
-      this.isLoading = true;
 
       await axios
-        .get(url)
+        .get(url, axiosConfig)
         .then((response) => {
           this.$store.dispatch("setLoading", false);
           this.isLoading = false;

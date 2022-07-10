@@ -96,9 +96,7 @@ export default {
       isUpdateRate: false,
     };
   },
-  mounted() {
-console.log(this.prevRate);
-  },
+ 
   methods: {
     update(item) {
       this.data = item;

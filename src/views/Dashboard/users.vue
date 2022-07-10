@@ -40,6 +40,14 @@
 <script>
 import axios from "@/Utils/axios.config.js";
 import Table_Users from "@/components/Table_Users.vue";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   name: "overview",
   components: { Table_Users },
@@ -74,7 +82,7 @@ export default {
       this.isLoading = true;
 
       await axios
-        .get("/account/user/")
+        .get("/account/user/", axiosConfig)
         .then((response) => {
           this.$store.dispatch("setLoading", false);
           this.isLoading = false;
@@ -95,7 +103,7 @@ export default {
         ""
       );
       this.url = getNextApi;
-      this.fetchUsers(this.url);
+      this.fetchUsers(this.url, axiosConfig);
     },
     prevHandler() {
       //Get Prev string api
@@ -104,7 +112,7 @@ export default {
         ""
       );
       this.url = getPrevApi;
-      this.fetchUsers(this.url);
+      this.fetchUsers(this.url, axiosConfig);
     },
   },
 };

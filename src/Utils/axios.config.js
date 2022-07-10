@@ -13,7 +13,6 @@ const instance = axios.create({
 
 // Where you would set stuff like your 'Authorization' header, etc ...
 
-instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 // Also add/ configure interceptors && all the other cool stuff
 

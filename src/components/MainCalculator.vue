@@ -8,7 +8,9 @@
         </h1>
         <div class="my-3 grid md:grid-cols-2 gap-6">
           <div>
-            <label for="hscode" class="font-medium text-sm md:text-base">HS-CODE</label>
+            <label for="hscode" class="font-medium text-sm md:text-base"
+              >HS-CODE</label
+            >
             <div
               class="mt-2 w-full cursor-pointer items-center relative px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
             >
@@ -114,7 +116,9 @@
         <div class="mt-6 border-t-2 border-[#ECD0E9] w-full py-4 space-y-4">
           <div class="my-3 grid md:grid-cols-2 gap-6">
             <div>
-              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
+              <label
+                for="hscode"
+                class="font-medium text-sm md:text-base uppercase"
                 >Currency</label
               >
               <div
@@ -159,7 +163,9 @@
             </div>
             <div>
               <div class="flex items-center justify-between mb-2">
-                <label for="hscode" class="font-medium text-sm md:text-base uppercase"
+                <label
+                  for="hscode"
+                  class="font-medium text-sm md:text-base uppercase"
                   >Insurance ({{ insuranceType }})
                 </label>
                 <div class="flex items-center gap-3">
@@ -210,7 +216,9 @@
 
           <div class="my-3 grid md:grid-cols-2 gap-6">
             <div>
-              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
+              <label
+                for="hscode"
+                class="font-medium text-sm md:text-base uppercase"
                 >FOB</label
               >
               <input
@@ -224,7 +232,9 @@
               />
             </div>
             <div>
-              <label for="hscode" class="font-medium text-sm md:text-base uppercase"
+              <label
+                for="hscode"
+                class="font-medium text-sm md:text-base uppercase"
                 >FREIGHT</label
               >
 
@@ -267,6 +277,14 @@ import { mapState } from "vuex";
 import axios from "@/Utils/axios.config.js";
 import Result from "./Result.vue";
 import Loading from "./Loading.vue";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   props: [],
   components: { Result, Loading },
@@ -396,7 +414,7 @@ export default {
       };
       const calculationsDataWithPercentageInsurance = {
         ...data,
-        insurance_percentage: parseFloat(this.item.insurance_percentage),
+        insurance_percentage: parseFloat(this.item.insurance),
       };
       this.loading = true;
       this.$store.dispatch("setLoading", true);
@@ -406,7 +424,8 @@ export default {
           "/api/v1/calculation/",
           this.insuranceType == "actual"
             ? calculationsDataWithActualInsurance
-            : calculationsDataWithPercentageInsurance
+            : calculationsDataWithPercentageInsurance,
+          axiosConfig
         )
         .then((response) => {
           console.log(response.data);

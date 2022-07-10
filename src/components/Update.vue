@@ -1,9 +1,7 @@
 <!-- eslint-disable -->
 
 <template>
-  <div
-    class="layout"
-  >
+  <div class="layout">
     <div class="update_box space-y-8">
       <h1 class="text-xl font-medium text-center">
         {{ currentTab.toUpperCase() }}
@@ -69,7 +67,13 @@
 <script>
 import LvProgressBar from "lightvue/progress-bar";
 import axios from "@/Utils/axios.config.js";
-
+import Cookies from "js-cookie";
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   props: ["handleUpdateModal", "currentTab", "opacity-100"],
 
@@ -97,6 +101,9 @@ export default {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
           this.uploadProgressPercent = Math.floor((loaded * 100) / total);
+        },
+        Headers: {
+          Authorization: `Bearer ${token}`,
         },
       };
       let formData = new FormData();

@@ -91,6 +91,14 @@ import axios from "@/Utils/axios.config.js";
 import Table_Rate from "../../components/Table_Rate.vue";
 import Table_Tariff from "../../components/Table_Tariff.vue";
 import Update from "../../components/Update.vue";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
+const axiosConfig = {
+  Headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 export default {
   name: "rate",
   components: { Table_Rate, Table_Tariff, Update },
@@ -169,25 +177,22 @@ export default {
       this.isLoading = true;
 
       try {
-        const [response1, response2, response3] = await Promise.all([
-          axios.get(urlTariff),
-          axios.get(urlRate),
-          axios.get("/api/v1/data/"),
+        const [response1, response2] = await Promise.all([
+          axios.get(urlTariff, axiosConfig),
+          axios.get(urlRate, axiosConfig),
         ]);
         this.tariffData = response1.data;
         this.rateData = response2.data;
-        
+
         this.prevRate = response2.data.previous;
         this.nextRate = response2.data.next;
         this.prevTariff = response1.data.previous;
         this.nextTariff = response1.data.next;
         console.log(this.nextTariff);
 
-
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("fetchCalculationData", response3.data);
         this.$store.dispatch("rateList", response2.data);
         this.$store.dispatch("tariffList", response1.data);
       } catch (err) {

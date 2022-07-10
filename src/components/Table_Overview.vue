@@ -3,7 +3,6 @@
   <div>
     <Loading v-if="loading" />
     <div
-      v-else
       class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6"
     >
       <table class="w-full items-center table-auto">

@@ -7,7 +7,7 @@ export const useRegister = (credentials, store, router) => {
   axios
     .post("/account/register/", credentials)
     .then((response) => {
-      // Cookies.set("token", response.data.token);
+      Cookies.set("token", response.data.token);
       store.dispatch("setNewUser", response.data);
       store.dispatch("setLoading", false);
       const { user_type } = response.data;
@@ -28,7 +28,7 @@ export const useLogin = (credentials, store, router) => {
   axios
     .post("/account/auth/", credentials)
     .then((response) => {
-      // Cookies.set("token", response.data.token);
+      Cookies.set("token", response.data.token);
       store.dispatch("setUser", response.data);
       store.dispatch("setLoading", false);
       const { user_type } = response.data.user;
