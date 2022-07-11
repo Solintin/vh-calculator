@@ -68,7 +68,7 @@ export default {
 
     async getCalculationData() {
       this.$store.dispatch("setLoading", true);
-
+//tariffdata is Fetched due to the rate change date on the invoice to be printed
    try {
         const [response1, response2] = await Promise.all([
           axios.get("/api/v1/tariff/", axiosConfig),
