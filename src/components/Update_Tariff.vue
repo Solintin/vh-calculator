@@ -28,12 +28,7 @@
           </div>
           <div class="flex flex-col">
             <label>SU</label>
-            <input
-              type="text"
-              required
-              v-model="su"
-              class="input_box"
-            />
+            <input type="text" required v-model="su" class="input_box" />
           </div>
           <div class="flex flex-col">
             <label>Tarrif ID</label>
@@ -46,12 +41,7 @@
           </div>
           <div class="flex flex-col">
             <label>Levy</label>
-            <input
-              type="number"
-              required
-              v-model="levy"
-              class="input_box"
-            />
+            <input type="number" required v-model="levy" class="input_box" />
           </div>
           <div class="flex flex-col">
             <label>VAT</label>
@@ -65,12 +55,7 @@
           </div>
           <div class="flex flex-col">
             <label>Excercise Duty</label>
-            <input
-              type="number"
-              required
-              v-model="e_duty"
-              class="input_box"
-            />
+            <input type="number" required v-model="e_duty" class="input_box" />
           </div>
         </div>
 
@@ -106,7 +91,7 @@ import { digitFormatter } from "@/Utils/helper_function";
 import Cookies from "js-cookie";
 const token = Cookies.get("token");
 const axiosConfig = {
-  Headers: {
+  headers: {
     Authorization: `Bearer ${token}`,
   },
 };
@@ -147,16 +132,20 @@ export default {
       e.preventDefault();
       this.loading = true;
       axios
-        .put(`/api/v1/tariff/${this.item.id}/`, {
-          id: this.item.id,
-          hs_description: this.hs_description,
-          hscode: this.hscode,
-          su: this.su,
-          id_tariff: this.id_tariff,
-          levy: this.levy,
-          vat: this.vat,
-          e_duty: this.e_duty,
-        }, axiosConfig)
+        .put(
+          `/api/v1/tariff/${this.item.id}/`,
+          {
+            id: this.item.id,
+            hs_description: this.hs_description,
+            hscode: this.hscode,
+            su: this.su,
+            id_tariff: this.id_tariff,
+            levy: this.levy,
+            vat: this.vat,
+            e_duty: this.e_duty,
+          },
+          axiosConfig
+        )
         .then((response) => {
           location.reload();
           this.loading = false;

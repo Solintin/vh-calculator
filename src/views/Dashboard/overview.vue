@@ -45,7 +45,7 @@ import Table_Overview from "../../components/Table_Overview.vue";
 import Cookies from "js-cookie";
 const token = Cookies.get("token");
 const axiosConfig = {
-  Headers: {
+  headers: {
     Authorization: `Bearer ${token}`,
   },
 };
@@ -83,7 +83,7 @@ export default {
   methods: {
     async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
-
+      console.log(axiosConfig);
       await axios
         .get(url, axiosConfig)
         .then((response) => {

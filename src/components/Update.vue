@@ -70,7 +70,7 @@ import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
 const token = Cookies.get("token");
 const axiosConfig = {
-  Headers: {
+  headers: {
     Authorization: `Bearer ${token}`,
   },
 };
@@ -102,7 +102,7 @@ export default {
           const { loaded, total } = progressEvent;
           this.uploadProgressPercent = Math.floor((loaded * 100) / total);
         },
-        Headers: {
+        headers: {
           Authorization: `Bearer ${token}`,
         },
       };

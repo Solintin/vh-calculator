@@ -48,7 +48,7 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get("token");
 const axiosConfig = {
-  Headers: {
+  headers: {
     Authorization: `Bearer ${token}`,
   },
 };
@@ -71,14 +71,16 @@ export default {
       this.$store.dispatch("setLoading", true);
 
       try {
-        const [response] = await Promise.all([
+        const [response1, response2] = await Promise.all([
+          axios.get("/api/v1/tariff/", axiosConfig),
           axios.get("/api/v1/data/", axiosConfig),
         ]);
-
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("fetchCalculationData", response.data);
+        this.$store.dispatch("fetchCalculationData", response2.data);
+        this.$store.dispatch("tariffList", response1.data);
+
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;

@@ -281,7 +281,7 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get("token");
 const axiosConfig = {
-  Headers: {
+  headers: {
     Authorization: `Bearer ${token}`,
   },
 };
