@@ -70,6 +70,7 @@ import axios from "@/Utils/axios.config.js";
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 import Pagination from "./DataPagination.vue";
+import Cookies from "js-cookie";
 
 export default {
   components: { Loading, Pagination },
@@ -80,9 +81,23 @@ export default {
     nextHandler: Function,
     prevHandler: Function,
   },
+  data() {
+    return {
+      axiosConfig: "",
+    };
+  },
   computed: {
     ...mapState(["loading"]),
   },
+  mounted() {
+    let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  },
+
   methods: {
     handleUserType(userType) {
       if (userType == "Super Admin") {
@@ -96,9 +111,13 @@ export default {
       this.$store.dispatch("setLoading", true);
 
       axios
-        .put(`/account/user/${id}/`, {
-          user_type: getUserType,
-        })
+        .put(
+          `/account/user/${id}/`,
+          {
+            user_type: getUserType,
+          },
+          this.axiosConfig
+        )
         .then((response) => {
           location.reload();
           this.$store.dispatch("setLoading", false);

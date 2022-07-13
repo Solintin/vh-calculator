@@ -93,12 +93,7 @@ import Table_Tariff from "../../components/Table_Tariff.vue";
 import Update from "../../components/Update.vue";
 import Cookies from "js-cookie";
 
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
+
 export default {
   name: "rate",
   components: { Table_Rate, Table_Tariff, Update },
@@ -119,6 +114,7 @@ export default {
       nextTariff: "",
       urlRate: "/api/v1/rate/",
       urlTariff: "/api/v1/tariff/",
+      axiosConfig : ""
     };
   },
 
@@ -168,6 +164,12 @@ export default {
     },
   },
   mounted() {
+    let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     this.rate(this.urlRate, this.urlTariff);
   },
 
@@ -178,8 +180,8 @@ export default {
 
       try {
         const [response1, response2] = await Promise.all([
-          axios.get(urlTariff, axiosConfig),
-          axios.get(urlRate, axiosConfig),
+          axios.get(urlTariff, this.axiosConfig),
+          axios.get(urlRate, this.axiosConfig),
         ]);
         this.tariffData = response1.data;
         this.rateData = response2.data;

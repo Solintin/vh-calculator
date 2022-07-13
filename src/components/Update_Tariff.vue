@@ -89,12 +89,6 @@
 import axios from "@/Utils/axios.config.js";
 import { digitFormatter } from "@/Utils/helper_function";
 import Cookies from "js-cookie";
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
 
 export default {
   components: {},
@@ -116,6 +110,7 @@ export default {
       loading: false,
       error: false,
       message: "",
+      axiosConfig: "",
     };
   },
 
@@ -126,6 +121,12 @@ export default {
     this.vat = this.item.vat;
     this.id_tariff = this.item.id_tariff;
     this.levy = this.item.levy;
+    let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
   },
   methods: {
     handleUpdateTariff(e) {

@@ -42,23 +42,23 @@ import Calculator from "@/components/MainCalculator.vue";
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
 
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
-
 export default {
   name: "calculator-app",
   components: { Guide, Calculator },
   data() {
     return {
       Tab: "help",
+      axiosConfig: "",
     };
   },
 
   mounted() {
+    let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     this.getCalculationData();
   },
   methods: {
@@ -68,18 +68,17 @@ export default {
 
     async getCalculationData() {
       this.$store.dispatch("setLoading", true);
-//tariffdata is Fetched due to the rate change date on the invoice to be printed
-   try {
+      //tariffdata is Fetched due to the rate change date on the invoice to be printed
+      try {
         const [response1, response2] = await Promise.all([
-          axios.get("/api/v1/tariff/", axiosConfig),
-          axios.get("/api/v1/data/", axiosConfig),
+          axios.get("/api/v1/tariff/", this.axiosConfig),
+          axios.get("/api/v1/data/", this.axiosConfig),
         ]);
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
         this.$store.dispatch("fetchCalculationData", response2.data);
         this.$store.dispatch("tariffList", response1.data);
-
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;

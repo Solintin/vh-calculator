@@ -43,12 +43,6 @@
 import axios from "@/Utils/axios.config.js";
 import Table_Overview from "../../components/Table_Overview.vue";
 import Cookies from "js-cookie";
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
 
 export default {
   name: "overview",
@@ -62,13 +56,17 @@ export default {
       prev: "",
       next: "",
       url: "/api/v1/calculation/",
+      axiosConfig: "",
     };
   },
   mounted() {
-    const token = Cookies.get("token");
-    if (token) {
-      this.fetchCalculations(this.url);
-    }
+    let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    this.fetchCalculations(this.url);
   },
 
   computed: {
@@ -83,9 +81,8 @@ export default {
   methods: {
     async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
-      console.log(axiosConfig);
       await axios
-        .get(url, axiosConfig)
+        .get(url, this.axiosConfig)
         .then((response) => {
           this.$store.dispatch("setLoading", false);
           this.isLoading = false;

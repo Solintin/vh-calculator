@@ -68,12 +68,7 @@
 import LvProgressBar from "lightvue/progress-bar";
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
+
 export default {
   props: ["handleUpdateModal", "currentTab", "opacity-100"],
 
@@ -97,6 +92,8 @@ export default {
       this.fileUpdate = event.target.files[0];
     },
     async upload() {
+      let token = Cookies.get("token");
+      
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;

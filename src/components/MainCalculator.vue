@@ -279,12 +279,6 @@ import Result from "./Result.vue";
 import Loading from "./Loading.vue";
 import Cookies from "js-cookie";
 
-const token = Cookies.get("token");
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
 export default {
   props: [],
   components: { Result, Loading },
@@ -299,6 +293,7 @@ export default {
       showHscodeDesc: false,
       insuranceToggle: false,
       insuranceType: "actual",
+      axiosConfig: "",
       selectedCurrency: { currency_code: "" },
       selectedCode: {
         code: "",
@@ -345,6 +340,14 @@ export default {
           .includes(this.selectedCurrency.currency_code.toLowerCase())
       );
     },
+  },
+  mounted(){
+  let token = Cookies.get("token");
+    this.axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
   },
   methods: {
     setShowResult() {
@@ -425,7 +428,7 @@ export default {
           this.insuranceType == "actual"
             ? calculationsDataWithActualInsurance
             : calculationsDataWithPercentageInsurance,
-          axiosConfig
+          this.axiosConfig
         )
         .then((response) => {
           console.log(response.data);

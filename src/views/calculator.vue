@@ -68,6 +68,13 @@ export default {
 
   methods: {
     async getCalculationData() {
+      let token = Cookies.get("token");
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
       this.$store.dispatch("setLoading", true);
 
       try {
@@ -80,7 +87,6 @@ export default {
 
         this.$store.dispatch("fetchCalculationData", response2.data);
         this.$store.dispatch("tariffList", response1.data);
-
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
