@@ -93,7 +93,7 @@ export default {
     },
     async upload() {
       let token = Cookies.get("token");
-      
+
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
@@ -109,9 +109,13 @@ export default {
         this.uploading = true;
         try {
           await axios.post("/api/v1/rate/", formData, options).then((res) => {
+            this.$toast.success("Update Successful");
+
             this.success_message = res.data.detail;
           });
         } catch (error) {
+          this.$toast.error(JSON.stringify(error.response.data));
+
           console.log(error);
         }
       } else {
@@ -119,9 +123,13 @@ export default {
 
         try {
           await axios.post("/api/v1/tariff/", formData, options).then((res) => {
+            this.$toast.success("Update Successful");
+
             this.success_message = res.data.detail;
           });
         } catch (error) {
+          this.$toast.error(JSON.stringify(error.response.data));
+
           console.log(error);
         }
       }

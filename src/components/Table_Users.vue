@@ -119,11 +119,15 @@ export default {
           this.axiosConfig
         )
         .then((response) => {
+          this.$toast.success("Role Changed Successful");
+
           location.reload();
           this.$store.dispatch("setLoading", false);
           // calculationList(response.data);
         })
         .catch((error) => {
+          this.$toast.error("An error occured");
+
           this.$store.dispatch("setLoading", false);
         });
     },

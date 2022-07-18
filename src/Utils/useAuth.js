@@ -10,6 +10,8 @@ export const useRegister = (credentials, store, router) => {
       Cookies.set("token", response.data.token);
       store.dispatch("setNewUser", response.data);
       store.dispatch("setLoading", false);
+      this.$toast.success("Registration Successful");
+
       const { user_type } = response.data;
       if (user_type === "Admin") {
         router.push("/admin/overview");
@@ -19,6 +21,8 @@ export const useRegister = (credentials, store, router) => {
     })
     .catch((error) => {
       store.dispatch("setLoading", false);
+      this.$toast.error(JSON.stringify(error.response.data));
+
       console.log(error);
     });
 };
@@ -37,11 +41,12 @@ export const useLogin = (credentials, store, router) => {
       } else {
         router.push("/calculator");
       }
-      //  this.$toast.success("Login Successful")
+      this.$toast.success("Login Successful");
     })
     .catch((error) => {
-      //  Vue.$toast.error("Login Failed")
       store.dispatch("setLoading", false);
+      this.$toast.error(JSON.stringify(error.response.data));
+
       console.log(error);
     });
 };

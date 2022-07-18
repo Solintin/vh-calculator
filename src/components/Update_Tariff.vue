@@ -148,12 +148,16 @@ export default {
           axiosConfig
         )
         .then((response) => {
+          this.$toast.success("Update Successful");
+
           location.reload();
           this.loading = false;
           this.message = "Update Successful";
           // calculationList(response.data);
         })
         .catch((error) => {
+          this.$toast.error("An error occured");
+
           this.loading = false;
           this.error = true;
           this.message = "Update Failed";

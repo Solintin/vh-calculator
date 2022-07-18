@@ -86,8 +86,7 @@ export default {
       loading: false,
       error: false,
       message: "",
-            axiosConfig: "",
-
+      axiosConfig: "",
     };
   },
 
@@ -95,7 +94,7 @@ export default {
     this.currency_code = this.item.currency_code;
     this.currency_name = this.item.currency_name;
     this.exchange_rate = this.item.exchange_rate;
-      let token = Cookies.get("token");
+    let token = Cookies.get("token");
     this.axiosConfig = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -118,12 +117,15 @@ export default {
           this.axiosConfig
         )
         .then((response) => {
+          this.$toast.success("Update Successful");
+
           location.reload();
           this.loading = false;
           this.message = "Update Successful";
           // calculationList(response.data);
         })
         .catch((error) => {
+          this.$toast.error("An error occured");
           this.loading = false;
           this.error = true;
           this.message = "Update Failed";
