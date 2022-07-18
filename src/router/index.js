@@ -21,7 +21,7 @@ const routeGuard = (to, from, next) => {
     next();
   } else if (
     to.matched.some((record) => record.meta.requiresLogin) &&
-    userType === "Super Admin" &&
+    userType === "Admin" &&
     isLoggedIn
   ) {
     next();

@@ -32,7 +32,7 @@ export const useLogin = (credentials, store, router) => {
       store.dispatch("setUser", response.data);
       store.dispatch("setLoading", false);
       const { user_type } = response.data.user;
-      if (user_type === "Super Admin") {
+      if (user_type === "Admin") {
         router.push("/admin/overview");
       } else {
         router.push("/calculator");
