@@ -58,17 +58,17 @@
         <div class="divide-y-2">
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-10">
-              <p class="text-gray-500 font-medium">
-                CIF (Sum of FOB, Insurance and Freight
-              </p>
+              <p class="text-gray-500 font-medium">CF</p>
             </div>
-            <div class="col-span-2">{{ digitFormatter(result.cif) }} NGN</div>
+            <div class="col-span-2">{{ digitFormatter(result.cf) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-10">
-              <p class="text-gray-500 font-medium">CIF</p>
+              <p class="text-gray-500 font-medium">
+                CIF (Sum of FOB, Insurance and Freight)
+              </p>
             </div>
-            <div class="col-span-2">{{ digitFormatter(result.cf) }} NGN</div>
+            <div class="col-span-2">{{ digitFormatter(result.cif) }} NGN</div>
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-10">

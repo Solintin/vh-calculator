@@ -10,23 +10,23 @@
       <div class="divide-y-4 capitalize text-base md:text-lg font-medium">
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
-          <div class="ml-2">NGN {{ digitFormatter(result.result) }}</div>
+          <div class="ml-2">          {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.result) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
-          <div class="ml-2">NGN {{ digitFormatter(result.total) }}</div>
+          <div class="ml-2">          {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.total) }}</div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Total import duty payable</div>
           <div class="ml-2">
-            {{ result.selectedCurrency.currency_code}}
+  NGN
             {{ digitFormatter(result.result_NGN) }}
           </div>
         </div>
         <div class="flex justify-between items-center py-4">
           <div class="">Sum Total</div>
           <div class="ml-2">
-            {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.total_NGN) }}
+  NGN {{ digitFormatter(result.total_NGN) }}
           </div>
         </div>
       </div>

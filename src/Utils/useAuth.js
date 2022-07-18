@@ -11,7 +11,7 @@ export const useRegister = (credentials, store, router) => {
       store.dispatch("setNewUser", response.data);
       store.dispatch("setLoading", false);
       const { user_type } = response.data;
-      if (user_type === "Super Admin") {
+      if (user_type === "Admin") {
         router.push("/admin/overview");
       } else {
         router.push("/calculator");
