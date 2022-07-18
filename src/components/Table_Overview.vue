@@ -39,10 +39,10 @@
               {{ description }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              {{ duty }}
+              {{ digitFormatter(duty) }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-center">
-              {{ cost }}
+              {{ digitFormatter(cost) }}
             </td>
           </tr>
         </tbody>
@@ -71,6 +71,7 @@
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 import Pagination from "./DataPagination.vue";
+import { digitFormatter } from "@/Utils/helper_function";
 
 export default {
   components: { Loading, Pagination },
@@ -88,6 +89,11 @@ export default {
   },
   computed: {
     ...mapState(["loading"]),
+  },
+    methods: {
+    digitFormatter(input) {
+      return digitFormatter(input);
+    },
   },
 };
 </script>
