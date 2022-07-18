@@ -100,10 +100,10 @@ export default {
 
   methods: {
     handleUserType(userType) {
-      if (userType == "Super Admin") {
-        return "Admin";
+      if (userType == "Admin") {
+        return "User";
       } else {
-        return "Super Admin";
+        return "Admin";
       }
     },
     handleRole(id, user_type) {
