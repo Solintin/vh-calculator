@@ -309,7 +309,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["calculationData", "tariffsList"]),
+    ...mapState(["calculationData", "ratesList"]),
     resultInfo() {
       return {
         ...this.result.details.detail,
@@ -317,7 +317,7 @@ export default {
         selectedCurrency: this.selectedCurrency,
         item: this.item,
         dateTime: new Date(
-          this.tariffsList.results[0].date_uploaded
+          this.ratesList.results[0].date_uploaded
         ).toLocaleDateString(),
       };
     },
@@ -341,8 +341,8 @@ export default {
       );
     },
   },
-  mounted(){
-  let token = Cookies.get("token");
+  mounted() {
+    let token = Cookies.get("token");
     this.axiosConfig = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -431,7 +431,6 @@ export default {
           this.axiosConfig
         )
         .then((response) => {
-          console.log(response.data);
           this.result.details = response.data;
           this.$store.dispatch("setLoading", false);
 
@@ -439,6 +438,8 @@ export default {
           this.showResult = true;
         })
         .catch((error) => {
+          this.$toast.error(JSON.stringify(error.response.data));
+
           this.loading = false;
         });
     },

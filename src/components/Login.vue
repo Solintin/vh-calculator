@@ -129,7 +129,7 @@ export default {
       if (!this.$v.$invalid) {
         //Login Logic
         const credentials = { email: this.email, password: this.password };
-        useLogin(credentials, this.$store, this.$router);
+        useLogin(credentials, this.$store, this.$router, this);
       } else {
       }
     },

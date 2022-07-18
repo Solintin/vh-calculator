@@ -162,7 +162,7 @@ export default {
           password: this.password,
           user_type: this.user_type,
         };
-        useRegister(credentials, this.$store, this.$router);
+        useRegister(credentials, this.$store, this.$router, this);
       } else {
       }
     },

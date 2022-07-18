@@ -2,7 +2,7 @@
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
 
-export const useRegister = (credentials, store, router) => {
+export const useRegister = (credentials, store, router, dis) => {
   store.dispatch("setLoading", true);
   axios
     .post("/account/register/", credentials)
@@ -10,7 +10,7 @@ export const useRegister = (credentials, store, router) => {
       Cookies.set("token", response.data.token);
       store.dispatch("setNewUser", response.data);
       store.dispatch("setLoading", false);
-      this.$toast.success("Registration Successful");
+      dis.$toast.success("Registration Successful");
 
       const { user_type } = response.data;
       if (user_type === "Admin") {
@@ -21,13 +21,13 @@ export const useRegister = (credentials, store, router) => {
     })
     .catch((error) => {
       store.dispatch("setLoading", false);
-      this.$toast.error(JSON.stringify(error.response.data));
+      dis.$toast.error(JSON.stringify(error.response.data));
 
       console.log(error);
     });
 };
 
-export const useLogin = (credentials, store, router) => {
+export const useLogin = (credentials, store, router, dis) => {
   store.dispatch("setLoading", true);
   axios
     .post("/account/auth/", credentials)
@@ -41,11 +41,11 @@ export const useLogin = (credentials, store, router) => {
       } else {
         router.push("/calculator");
       }
-      this.$toast.success("Login Successful");
+      dis.$toast.success("Login Successful");
     })
     .catch((error) => {
       store.dispatch("setLoading", false);
-      this.$toast.error(JSON.stringify(error.response.data));
+      dis.$toast.error(JSON.stringify(error.response.data));
 
       console.log(error);
     });
