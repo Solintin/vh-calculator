@@ -13,7 +13,7 @@
               User Email
             </th>
             <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
-              Item Role
+              User Role
             </th>
             <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Action
