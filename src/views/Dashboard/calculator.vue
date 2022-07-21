@@ -70,12 +70,14 @@ export default {
       this.$store.dispatch("setLoading", true);
       //tariffdata is Fetched due to the rate change date on the invoice to be printed
       try {
-        const [response1, response2] = await Promise.all([
+        const [response1, response2, response3]  = await Promise.all([
           axios.get("/api/v1/tariff/", this.axiosConfig),
           axios.get("/api/v1/data/", this.axiosConfig),
+          axios.get("/api/v1/rate/", this.axiosConfig),
         ]);
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
+        this.$store.dispatch("rateList", response3.data);
 
         this.$store.dispatch("fetchCalculationData", response2.data);
         this.$store.dispatch("tariffList", response1.data);
