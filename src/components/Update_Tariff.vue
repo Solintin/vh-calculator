@@ -121,6 +121,7 @@ export default {
     this.vat = this.item.vat;
     this.id_tariff = this.item.id_tariff;
     this.levy = this.item.levy;
+    this.e_duty = this.item.e_duty;
     let token = Cookies.get("token");
     this.axiosConfig = {
       headers: {

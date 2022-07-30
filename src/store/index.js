@@ -17,7 +17,7 @@ export default new Vuex.Store({
     isLoggedIn: false,
     loading: false,
     currentUser: undefined,
-    userType: ""
+    userType: "",
   },
 
   actions: {

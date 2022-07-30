@@ -1,6 +1,6 @@
 <!-- eslint-disable -->
 <template>
-  <div class="flex justify-between px-10 items-center mt-5">
+  <div class="flex w-full justify-between px-10 items-center mt-5">
     <button
       @click="prevHandler"
       :disabled="prev === null"

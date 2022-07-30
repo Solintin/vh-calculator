@@ -5,7 +5,7 @@
 
     <div
       v-else
-      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6"
+      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll pb-6"
     >
       <table class="w-full items-center table-auto">
         <thead>
@@ -17,6 +17,8 @@
               HSCODE
             </th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">SU</th>
+            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">Ex. duty</th>
+            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">Levy</th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">ID</th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">VAT</th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">
@@ -24,7 +26,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="tariffData && tariffData.length > 0">
+        <tbody v-if="tariffData && tariffData.length > 0" class="overflow-x-auto">
           <tr
             v-for="(item, idx) in tariffData"
             :class="`${
@@ -40,6 +42,12 @@
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
               {{ item.su }}
+            </td>
+            <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
+              {{ item.e_duty }}
+            </td>
+            <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
+              {{ item.levy }}
             </td>
             <td class="px-3 py-5 leading-5 whitespace-nowrap text-left">
               {{ item.id_tariff }}

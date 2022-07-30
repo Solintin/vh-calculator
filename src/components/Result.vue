@@ -1,33 +1,99 @@
 <!-- eslint-disable -->
 
 <template>
-  <div class="layout">
-    <div class="update_box py-8 px-4 md:px-8 space-y-8">
+  <div class="layout py-10">
+    <div class="update_box max-w-max overflow-y-auto  py-8 px-4 md:px-8 space-y-8">
       <h1 class="text-xl font-medium text-center mb-3 underline">
         Calculation Details
       </h1>
 
-      <div class="divide-y-4 capitalize text-base md:text-lg font-medium">
-        <div class="flex justify-between items-center py-4">
-          <div class="">Total import duty payable</div>
-          <div class="ml-2">          {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.result) }}</div>
-        </div>
-        <div class="flex justify-between items-center py-4">
-          <div class="">Sum Total</div>
-          <div class="ml-2">          {{ result.selectedCurrency.currency_code}} {{ digitFormatter(result.total) }}</div>
-        </div>
-        <div class="flex justify-between items-center py-4">
-          <div class="">Total import duty payable</div>
-          <div class="ml-2">
-  NGN
-            {{ digitFormatter(result.result_NGN) }}
+      <div class="divide-y-4 capitalize text-xs md:text-lg font-medium">
+        <div class="divide-y-2">
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">CF</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.cf_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">
+                CIF (Sum of FOB, Insurance and Freight)
+              </p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.cif_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">ID</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.id_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">Surcharge</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.sc_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">CISS (1% of FOB value)</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.ciss_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">Levy</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.exercise_duty_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">Excise duty</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.ciss_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">ETLS (0.5% of CIF)</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.etls_NGN) }} NGN
+            </div>
+          </div>
+          <div class="grid grid-cols-12 py-3">
+            <div class="col-span-9">
+              <p class="text-gray-500 font-medium">VAT</p>
+            </div>
+            <div class="col-span-3">
+              {{ digitFormatter(result.vat_NGN) }} NGN
+            </div>
           </div>
         </div>
-        <div class="flex justify-between items-center py-4">
-          <div class="">Sum Total</div>
-          <div class="ml-2">
-  NGN {{ digitFormatter(result.total_NGN) }}
-          </div>
+
+        <div class="grid grid-cols-12 py-4">
+        
+
+          <div class="col-span-9">
+              <p class="font-medium">Total import duty payable</p>
+            </div>
+            <div class="col-span-3 underline">
+              {{ digitFormatter(result.result_NGN) }} NGN
+            </div>
         </div>
       </div>
 
@@ -60,18 +126,12 @@
         pdf-format="a4"
         pdf-orientation="portrait"
         pdf-content-width="800px"
-        @progress="onProgress($event)"
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
         ref="html2Pdf"
       >
         <!-- PDF Content Here -->
-      <Print
-        slot="pdf-content"
-        :result="result"
-      
-        
-      />
+        <Print slot="pdf-content" :result="result" />
       </vue-html2pdf>
     </div>
   </div>
@@ -92,13 +152,12 @@ export default {
   props: {
     setShowResult: Function,
     result: Object,
-    
   },
 
   data() {
     return {};
   },
- 
+
   computed: {
     ...mapState(["loading"]),
     htmlToPdfOptions() {
