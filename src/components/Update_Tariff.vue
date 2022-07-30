@@ -14,7 +14,7 @@
               type="text"
               required
               v-model="hs_description"
-              class="input_box"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black"
             />
           </div>
           <div class="flex flex-col">
@@ -23,12 +23,12 @@
               type="number"
               required
               v-model="hscode"
-              class="input_box capitalize"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black capitalize"
             />
           </div>
           <div class="flex flex-col">
             <label>SU</label>
-            <input type="text" required v-model="su" class="input_box" />
+            <input type="text" required v-model="su" class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black" />
           </div>
           <div class="flex flex-col">
             <label>Tarrif ID</label>
@@ -36,12 +36,12 @@
               type="number"
               required
               v-model="id_tariff"
-              class="input_box"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black"
             />
           </div>
           <div class="flex flex-col">
             <label>Levy</label>
-            <input type="number" required v-model="levy" class="input_box" />
+            <input type="number" required v-model="levy" class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black" />
           </div>
           <div class="flex flex-col">
             <label>VAT</label>
@@ -50,7 +50,7 @@
               step="any"
               required
               v-model="vat"
-              class="input_box"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black"
             />
           </div>
           <div class="flex flex-col">

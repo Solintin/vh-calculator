@@ -14,7 +14,7 @@
               type="text"
               required
               v-model="currency_name"
-              class="input_box"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black"
             />
           </div>
           <div class="flex flex-col">
@@ -23,7 +23,7 @@
               type="text"
               required
               v-model="currency_code"
-              class="input_box capitalize"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black capitalize"
               @keyup="currency_code = currency_code.toUpperCase()"
             />
           </div>
@@ -34,7 +34,7 @@
               step="any"
               required
               v-model="exchange_rate"
-              class="input_box"
+              class="outline-none p-4 ring-2 ring-gray-300 focus:ring-[#B659A2CC] my-2 rounded text-black"
             />
           </div>
         </div>
