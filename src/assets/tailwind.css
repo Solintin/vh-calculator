@@ -4,4 +4,9 @@
 
 @tailwind utilities;
 
-
+.lv-input__group .lv-input__field {
+  color: #000 !important;
+  background: #ecd0e9 !important;
+  padding: 4px 16px !important;
+  border: 1px solid #db44c9 !important;
+}

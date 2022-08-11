@@ -16,7 +16,7 @@
             <p class="text-lg">HSCODE:</p>
           </div>
           <div class="col-span-8">
-            {{ result.selectedCode.code }}
+            {{ result.selectedCode.hscode }}
           </div>
         </div>
         <div class="grid grid-cols-12">
@@ -24,7 +24,7 @@
             <p class="text-lg">HSCODE Description:</p>
           </div>
           <div class="col-span-8">
-            {{ result.selectedCode.description }}
+            {{ result.selectedCode.hs_description }}
           </div>
         </div>
         <div class="grid grid-cols-12">
@@ -103,7 +103,7 @@
               <p class="text-gray-500 font-medium">Levy</p>
             </div>
             <div class="col-span-3">
-              {{ digitFormatter(result.exercise_duty_NGN) }} NGN
+              {{ digitFormatter(result.levy_NGN) }} NGN
             </div>
           </div>
           <div class="grid grid-cols-12 py-3">
@@ -111,7 +111,7 @@
               <p class="text-gray-500 font-medium">Excise duty</p>
             </div>
             <div class="col-span-3">
-              {{ digitFormatter(result.ciss_NGN) }} NGN
+              {{ digitFormatter(result.exercise_duty_NGN) }} NGN
             </div>
           </div>
           <div class="grid grid-cols-12 py-3">

@@ -11,91 +11,30 @@
             <label for="hscode" class="font-medium text-sm md:text-base"
               >HS-CODE</label
             >
-            <div
-              class="mt-2 w-full cursor-pointer items-center relative px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
-            >
-              <div class="flex justify-between w-full">
-                <input
-                  @focus="setShowHscode('focus')"
-                  type="number"
-                  min="0"
-                  required
-                  placeholder="Select HSCODE Code"
-                  class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
-                  v-model="selectedCode.code"
-                />
-                <button
-                  @click="setShowHscode"
-                  class="outline-none transform transform-translate duration-500"
-                  :class="showHscode ? 'rotate-180' : 'rotate-0'"
-                >
-                  <i class="fa-solid fa-caret-down text-3xl text-[#777]"></i>
-                </button>
-              </div>
-              <div
-                v-if="showHscode"
-                class="absolute z-[2] bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
-              >
-                <div v-if="filteredCetcode.length > 0">
-                  <div
-                    v-for="(item, idx) in filteredCetcode"
-                    :key="idx"
-                    @click="setHscode(item)"
-                    class="p-4 mt-1 bg-gray-100 hover:bg-gray-300"
-                  >
-                    {{ item.hscode }}
-                  </div>
-                </div>
-                <div v-else class="p-4 mt-1 bg-gray-100 hover:bg-gray-300">
-                  No data available
-                </div>
-              </div>
-            </div>
+
+            <lv-dropdown
+              v-model="selectedCode"
+              :options="calculationData.tariff"
+              optionLabel="hscode"
+              placeholder="Select Hscode Description "
+              editable
+              clearable
+              required
+            />
           </div>
           <div>
             <label for="hscode" class="font-medium text-sm md:text-base"
               >HS-CODE Description</label
             >
-            <div
-              class="mt-2 w-full cursor-pointer items-center relative px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
-            >
-              <div class="flex justify-between w-full">
-                <input
-                  @focus="setShowHscodeDesc('focus')"
-                  required
-                  placeholder="HS Description"
-                  type="text"
-                  class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
-                  v-model="selectedCode.description"
-                />
-
-                <button
-                  @click="setShowHscodeDesc"
-                  class="outline-none transform transform-translate duration-500"
-                  :class="showHscodeDesc ? 'rotate-180' : 'rotate-0'"
-                >
-                  <i class="fa-solid fa-caret-down text-3xl text-[#777]"></i>
-                </button>
-              </div>
-              <div
-                v-if="showHscodeDesc"
-                class="absolute bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
-              >
-                <div v-if="filteredCetDesc.length > 0">
-                  <div
-                    v-for="(item, idx) in filteredCetDesc"
-                    :key="idx"
-                    @click="setHscode(item)"
-                    class="p-4 mt-1 bg-gray-100 hover:bg-gray-300"
-                  >
-                    {{ item.hs_description }}
-                  </div>
-                </div>
-                <div v-else class="p-4 mt-1 bg-gray-100 hover:bg-gray-300">
-                  No data available
-                </div>
-              </div>
-            </div>
+            <lv-dropdown
+              v-model="selectedCode"
+              :options="calculationData.tariff"
+              optionLabel="hs_description"
+              placeholder="Select HSCODE Code"
+              editable
+              clearable
+              required
+            />
           </div>
         </div>
 
@@ -108,7 +47,7 @@
             required
             placeholder="Item description"
             type="text"
-            class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+            class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
             v-model="item.description"
           />
         </div>
@@ -121,48 +60,19 @@
                 class="font-medium text-sm md:text-base uppercase"
                 >Currency</label
               >
-              <div
-                class="mt-2 w-full cursor-pointer items-center relative px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
-              >
-                <div class="flex justify-between w-full">
-                  <input
-                    type="text"
-                    @focus="setShowCurrency('focus')"
-                    required
-                    placeholder="Click to select currency"
-                    class="text-sm md:text-xl truncate outline-none w-full bg-transparent"
-                    v-model="selectedCurrency.currency_code"
-                  />
-                  <button
-                    @click="setShowCurrency"
-                    class="outline-none transform transform-translate duration-500"
-                    :class="showCurrency ? 'rotate-180' : 'rotate-0'"
-                  >
-                    <i class="fa-solid fa-caret-down text-3xl text-[#777]"></i>
-                  </button>
-                </div>
-                <div
-                  v-if="showCurrency"
-                  class="absolute z-50 bg-gray-50 rounded top-[56px] inset-x-0 max-h-[200px] scrollbar-thin overflow-y-auto overflow-x-hidden flex flex-col"
-                >
-                  <div v-if="filteredCurrency.length > 0">
-                    <div
-                      v-for="(item, idx) in filteredCurrency"
-                      :key="idx"
-                      @click="setCurrency(item)"
-                      class="p-4 mt-1 bg-gray-100 hover:bg-gray-300"
-                    >
-                      {{ item.currency_code }}
-                    </div>
-                  </div>
-                  <div v-else class="p-4 mt-1 bg-gray-100 hover:bg-gray-300">
-                    No data available
-                  </div>
-                </div>
-              </div>
+
+              <lv-dropdown
+                v-model="selectedCurrency"
+                :options="calculationData.rate"
+                optionLabel="currency_code"
+                placeholder="Select currency"
+                editable
+                clearable
+                required
+              />
             </div>
             <div>
-              <div class="flex items-center justify-between mb-2">
+              <div class="flex items-start justify-between">
                 <label
                   for="hscode"
                   class="font-medium text-sm md:text-base uppercase"
@@ -177,16 +87,16 @@
                           ? 'bg-red-300'
                           : 'bg-gray-200'
                       "
-                      class="cursor-pointer w-12 h-6 rounded-[25px] p-1 transform transition-all duration-300"
+                      class="cursor-pointer w-9 h-4 rounded-[25px] p-1 transform transition-all duration-300"
                     >
                       <div
                         @click="handleInsuranceType"
                         :class="
                           insuranceType == 'actual'
                             ? ' bg-pink-500'
-                            : 'translate-x-6 bg-gray-600'
+                            : 'translate-x-4 bg-gray-600'
                         "
-                        class="transform transition-all duration-300 w-4 h-4 rounded-full"
+                        class="transform transition-all duration-300 w-2 h-2 rounded-full"
                       ></div>
                     </div>
                   </div>
@@ -196,7 +106,7 @@
                     class="pr-2"
                   >
                     <i
-                      class="fa fa-info-circle text-2xl"
+                      class="fa fa-info-circle text-xl"
                       aria-hidden="true"
                     ></i>
                   </div>
@@ -208,7 +118,7 @@
                 type="number"
                 step="any"
                 min="0"
-                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.insurance"
               />
             </div>
@@ -227,7 +137,7 @@
                 type="number"
                 step="any"
                 min="0"
-                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.fob"
               />
             </div>
@@ -244,7 +154,7 @@
                 type="number"
                 min="0"
                 step="any"
-                class="text-sm md:text-xl truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+                class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
                 v-model="item.freight"
               />
             </div>
@@ -253,7 +163,7 @@
 
         <div class="my-10 flex justify-center">
           <input
-            class="bg-[#B659A2] text-white cursor-pointer font-bold text-sm md:text-xl px-8 py-3 flex justify-center rounded-md max-w-max uppercase"
+            class="bg-[#B659A2] text-white cursor-pointer font-bold text-xs md:text-lg px-8 py-3 flex justify-center rounded-md max-w-max uppercase"
             :class="loading ? 'cursor-wait' : null"
             :value="loading ? 'Calculating...' : 'Calculate'"
             type="submit"
@@ -278,10 +188,11 @@ import axios from "@/Utils/axios.config.js";
 import Result from "./Result.vue";
 import Loading from "./Loading.vue";
 import Cookies from "js-cookie";
+import LvDropdown from "lightvue/dropdown";
 
 export default {
   props: [],
-  components: { Result, Loading },
+  components: { Result, Loading, LvDropdown },
 
   data() {
     return {
@@ -294,11 +205,8 @@ export default {
       insuranceToggle: false,
       insuranceType: "actual",
       axiosConfig: "",
-      selectedCurrency: { currency_code: "" },
-      selectedCode: {
-        code: "",
-        description: "",
-      },
+      selectedCurrency: null,
+      selectedCode: null,
       item: {
         description: "",
         fob: null,
@@ -320,25 +228,6 @@ export default {
           this.ratesList.results[0].date_uploaded
         ).toLocaleDateString(),
       };
-    },
-    filteredCetcode() {
-      return this.calculationData.tariff.filter((item) =>
-        item.hscode.includes(this.selectedCode.code)
-      );
-    },
-    filteredCetDesc() {
-      return this.calculationData.tariff.filter((item) =>
-        item.hs_description
-          .toLowerCase()
-          .includes(this.selectedCode.description.toLowerCase())
-      );
-    },
-    filteredCurrency() {
-      return this.calculationData.rate.filter((item) =>
-        item.currency_code
-          .toLowerCase()
-          .includes(this.selectedCurrency.currency_code.toLowerCase())
-      );
     },
   },
   mounted() {
@@ -380,16 +269,10 @@ export default {
         this.showCurrency = !this.showCurrency;
       }
     },
-    setHscode(value) {
-      this.selectedCode.code = value.hscode;
-      this.selectedCode.description = value.hs_description;
-      if (this.showHscode) {
-        this.showHscode = !this.showHscode;
-      }
-      if (this.showHscodeDesc) {
-        this.showHscodeDesc = !this.showHscodeDesc;
-      }
-    },
+    // setHsDesc() {
+    //   this.selectedCode.code = value.hscode;
+    //   this.selectedCode.description = value.hs_description;
+    // },
     setCurrency(value) {
       this.selectedCurrency.currency_code = value.currency_code;
       if (this.showCurrency) {
@@ -404,8 +287,8 @@ export default {
     handleCalculation(e) {
       e.preventDefault();
       const data = {
-        hscode: parseFloat(this.selectedCode.code),
-        hscode_description: this.selectedCode.description,
+        hscode: parseFloat(this.selectedCode.hscode),
+        hscode_description: this.selectedCode.hs_description,
         item_description: this.item.description,
         currency: this.selectedCurrency.currency_code,
         fob: parseFloat(this.item.fob),
