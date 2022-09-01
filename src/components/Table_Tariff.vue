@@ -74,6 +74,8 @@
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
+          :prevPageNumber="prevPageNumber"
+        :nextPageNumber="nextPageNumber"
         />
       </div>
     </div>
@@ -101,6 +103,8 @@ export default {
     next: String,
     nextHandler: Function,
     prevHandler: Function,
+    prevPageNumber: Number,
+    nextPageNumber: Number,
   },
   data() {
     return {};

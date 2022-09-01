@@ -5,21 +5,21 @@
 
     <div
       v-else
-      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6 "
+      class="table-wrapper mb-5 w-full rounded-xl shadow-xl border overflow-x-scroll lg:overflow-x-hidden pb-6"
     >
-      <table class="w-full items-center table-auto ">
+      <table class="w-full items-center table-auto">
         <thead>
-          <tr class="font-bold  bg-[#DBEBFF]">
-            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+          <tr class="font-bold bg-[#DBEBFF]">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Currency Name
             </th>
-            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Currency Code
             </th>
-            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Exchange rate (₦)
             </th>
-            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap  ">
+            <th class="px-3 py-5 leading-5 text-center whitespace-nowrap">
               Edit
             </th>
           </tr>
@@ -54,13 +54,14 @@
           </h1>
         </tbody>
       </table>
-      <div v-if="rateData && rateData.length > 0" 
-      >
-       <Pagination
+      <div v-if="rateData && rateData.length > 0">
+        <Pagination
           :next="next"
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
+          :prevPageNumber="prevPageNumber"
+          :nextPageNumber="nextPageNumber"
         />
       </div>
     </div>
@@ -76,7 +77,6 @@ import Loading from "./Loading.vue";
 import Update_Rate from "./Update_Rate.vue";
 import Pagination from "./DataPagination.vue";
 
-
 export default {
   components: { Loading, Update_Rate, Pagination },
   props: {
@@ -86,6 +86,9 @@ export default {
     next: String,
     nextHandler: Function,
     prevHandler: Function,
+    prevPageNumber: Number,
+    nextPageNumber: Number,
+    
   },
   computed: {
     ...mapState(["loading"]),
@@ -96,7 +99,10 @@ export default {
       isUpdateRate: false,
     };
   },
- 
+  mounted() {
+    console.log(this.rateData);
+  },
+
   methods: {
     update(item) {
       this.data = item;

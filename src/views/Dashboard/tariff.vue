@@ -5,16 +5,15 @@
       <div class="flex space-x-5">
         <router-link
           to="/admin/rate"
-          class="bg-[#B659A2] text-white rounded-full px-4 py-2 text-base font-medium"
+          class="bg-white text-black rounded-full px-4 py-2 text-base font-medium"
         >
-          
           RATE
         </router-link>
         <router-link
           to="/admin/tariff"
-          class="bg-white text-black rounded-full px-4 py-2 text-base font-medium"
+          class="bg-[#B659A2] text-white rounded-full px-4 py-2 text-base font-medium"
         >
-        TARIFFS
+          TARIFFS
         </router-link>
       </div>
 
@@ -37,7 +36,7 @@
 
       <div class="flex items-center space-x-5">
         <div>
-          <h1>Last Update: {{ getRateUpdatedDate }}</h1>
+          <h1>Last Update: {{ getTariffUpdatedDate }}</h1>
         </div>
 
         <button
@@ -50,10 +49,10 @@
       </div>
     </div>
     <div class="mt-24 table_rate">
-      <Table_Rate
-        :rateData="filteredRateData"
-        :next="nextRate"
-        :prev="prevRate"
+      <Table_Tariff
+        :tariffData="filteredTariffData"
+        :next="nextTariff"
+        :prev="prevTariff"
         :nextHandler="nextHandler"
         :prevHandler="prevHandler"
         :prevPageNumber="prevPageNumber"
@@ -63,7 +62,7 @@
     <Update
       v-if="updateModal"
       :handleUpdateModal="handleUpdateModal"
-      :currentTab="'rate'"
+      :currentTab="'tariff'"
     />
   </div>
 </template>
@@ -71,13 +70,13 @@
 
 <script>
 import axios from "@/Utils/axios.config.js";
-import Table_Rate from "../../components/Table_Rate.vue";
+import Table_Tariff from "../../components/Table_Tariff.vue";
 import Update from "../../components/Update.vue";
 import Cookies from "js-cookie";
 
 export default {
   name: "rate",
-  components: { Table_Rate, Update },
+  components: { Table_Tariff, Update },
 
   data() {
     return {
@@ -86,11 +85,11 @@ export default {
 
       updateModal: false,
       isLoading: false,
-      rateData: null,
+      tariffData: null,
       serachQuery: "",
-      prevRate: "",
-      nextRate: "",
-      urlRate: "/api/v1/rate/",
+      prevTariff: "",
+      nextTariff: "",
+      urlTariff: "/api/v1/tariff/",
       axiosConfig: "",
       PageNumber: null,
       
@@ -98,36 +97,37 @@ export default {
   },
 
   computed: {
-    getRateUpdatedDate() {
-      if (this.rateData !== null) {
+    getTariffUpdatedDate() {
+      if (this.tariffData !== null) {
         return new Date(
-          this.rateData.results[0].date_uploaded
+          this.tariffData.results[0].date_uploaded
         ).toLocaleDateString("en-GB");
       }
       return "Loading...";
     },
 
-    filteredRateData() {
-      if (this.rateData !== null) {
-        return this.rateData.results.filter(
+    filteredTariffData() {
+      if (this.tariffData !== null) {
+        return this.tariffData.results.filter(
           (item) =>
-            item.currency_name
+            item.hs_description
               .toLowerCase()
               .includes(this.serachQuery.toLowerCase()) ||
-            item.currency_code
+            item.hscode
               .toLowerCase()
-              .includes(this.serachQuery.toLowerCase())
+              .includes(this.serachQuery.toLowerCase()) ||
+            item.su.toLowerCase().includes(this.serachQuery.toLowerCase())
         );
       }
     },
     prevPageNumber() {
-      const param = new URLSearchParams(this.nextRate);
+      const param = new URLSearchParams(this.nextTariff);
       const PageNumber = param.get("offset");
       //PageNumber is gotten as a string that y (+) is to convert to interger
       return (+PageNumber - 20) / 20 + 1;
     },
     nextPageNumber() {
-      const param = new URLSearchParams(this.nextRate);
+      const param = new URLSearchParams(this.nextTariff);
       const PageNumber = param.get("offset");
       //PageNumber is gotten as a string that y (+) is to convert to interger
 
@@ -141,24 +141,24 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     };
-    this.fetchRate(this.urlRate);
+    this.fetchTariff(this.urlTariff);
   },
 
   methods: {
-    async fetchRate(urlRate) {
+    async fetchTariff(urlTariff) {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;
 
       try {
         const [response1] = await Promise.all([
-          axios.get(urlRate, this.axiosConfig),
+          axios.get(urlTariff, this.axiosConfig),
         ]);
-        this.rateData = response1.data;
+        this.tariffData = response1.data;
 
-        this.prevRate = response1.data.previous;
-        this.nextRate = response1.data.next;
-        console.log(this.prevRate);
-        console.log(this.nextRate);
+        this.prevTariff = response1.data.previous;
+        this.nextTariff = response1.data.next;
+        console.log(this.prevTariff);
+        console.log(this.nextTariff);
         
         console.log("Prev page:", this.prevPageNumber);
         console.log("Next page:", this.nextPageNumber);
@@ -166,7 +166,7 @@ export default {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("rateList", response1.data);
+        this.$store.dispatch("tariffList", response1.data);
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
@@ -181,22 +181,22 @@ export default {
     nextHandler() {
       //Get next string api
 
-      const getNextRateApi = this.nextRate.replace(
+      const getNextTariffApi = this.nextTariff.replace(
         "https://valuehandler.herokuapp.com",
         ""
       );
-      this.urlRate = getNextRateApi;
-      this.fetchRate(this.urlRate);
+      this.urlTariff = getNextTariffApi;
+      this.fetchTariff(this.urlTariff);
     },
     prevHandler() {
       //Get Prev string api
 
-      const getPrevRateApi = this.prevRate.replace(
+      const getPrevTariffApi = this.prevTariff.replace(
         "https://valuehandler.herokuapp.com",
         ""
       );
-      this.urlRate = getPrevRateApi;
-      this.fetchRate(this.urlRate);
+      this.urlTariff = getPrevTariffApi;
+      this.fetchTariff(this.urlTariff);
     },
   },
 };

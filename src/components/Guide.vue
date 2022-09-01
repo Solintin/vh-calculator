@@ -53,7 +53,9 @@
           alt=""
         />
         <h1 class="text-base md:text-lg font-bold uppercase">3. FEATURES</h1>
-        <p class="text-xs md:text-base">Features and Benefits of Valuehandlers Duty Calculator:</p>
+        <p class="text-xs md:text-base">
+          Features and Benefits of Valuehandlers Duty Calculator:
+        </p>
         <p class="text-xs md:text-base">
           Use Nigeria firs and No 1 custom duty calculator software to calculate
           total import duty payable to the Nigerian customs Service for all
@@ -91,9 +93,12 @@
         <h1 class="text-base md:text-lg font-bold uppercase">5. Accronym</h1>
         <p class="text-xs md:text-base">
           Find the full meaning of common acronyms in used while calculating
-          Import Duty: FOB: Freight on board CIF: Cost-Insurance-Freight ELTS:
-          ECOWAS Liberalization Trade Scheme CISS: Comprehensive Import
-          Supervision Scheme.
+          Import Duty:
+         <ul> <li>FOB: Freight on board</li>
+          <li>CIF: Cost-Insurance-Freight</li>
+
+          <li>ELTS: ECOWAS Liberalization Trade Scheme</li>
+          <li>CISS: Comprehensive Import Supervision Scheme.</li></ul>
         </p>
       </div>
       <div
@@ -143,7 +148,9 @@
               class="object-contain w-5 h-5"
               alt=""
             />
-            <p class="text-xs md:text-base">VAT 7.5% on the above plus the CIF.</p>
+            <p class="text-xs md:text-base">
+              VAT 7.5% on the above plus the CIF.
+            </p>
           </div>
         </div>
       </div>

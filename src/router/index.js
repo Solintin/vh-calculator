@@ -5,6 +5,7 @@ import Client_Calculator from "@/views/calculator.vue";
 import Register from "@/views/register.vue";
 import Index from "@/views/Dashboard/index.vue";
 import Rate from "@/views/Dashboard/rate.vue";
+import Tariff from "@/views/Dashboard/tariff.vue";
 import Overview from "@/views/Dashboard/overview.vue";
 import Users from "@/views/Dashboard/users.vue";
 import Calculator from "@/views/Dashboard/calculator.vue";
@@ -78,6 +79,15 @@ const routes = [
         path: "rate",
         name: "rate",
         component: Rate,
+        meta: {
+          requiresLogin: true,
+        },
+        beforeEnter: routeGuard,
+      },
+      {
+        path: "tariff",
+        name: "Tariff",
+        component: Tariff,
         meta: {
           requiresLogin: true,
         },
