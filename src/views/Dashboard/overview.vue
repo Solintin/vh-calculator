@@ -72,35 +72,15 @@ export default {
   computed: {
     filteredTableData() {
       if (this.tableData !== null) {
-        // return this.tableData.results.filter((item) =>
-        //   item.user.email.toLowerCase().includes(this.searchQuery.toLowerCase())
-        // );
-
-        let clonedData = [...this.tableData.results],
-          result = [];
-
-        if (clonedData.length < 1) return clonedData;
-
-        for (let i = 0; i < clonedData.length; i++) {
-          const currentData = clonedData[i];
-          let isMatch = true;
-
-          if (this.searchQuery && isMatch) {
-            isMatch =
-              currentData.user.email
-                .toLowerCase()
-                .includes(this.searchQuery.toLowerCase()) ||
-              currentData.description
-                .toLowerCase()
-                .includes(this.searchQuery.toLowerCase());
-          }
-
-          if (isMatch) {
-            result.push(currentData);
-          }
-        }
-
-        return result;
+        return this.tableData.results.filter(
+          (item) =>
+            item.user.email
+              .toLowerCase()
+              .includes(this.searchQuery.toLowerCase()) ||
+            item.description
+              .toLowerCase()
+              .includes(this.searchQuery.toLowerCase())
+        );
       }
     },
   },
