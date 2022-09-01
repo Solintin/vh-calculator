@@ -12,7 +12,7 @@
         >
           <input
             type="search"
-            v-model.trim="serachQuery"
+            v-model.trim="searchQuery"
             name="search"
             placeholder="Keyword : User Email or Description"
             class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -52,7 +52,7 @@ export default {
     return {
       tableData: null,
       isLoading: true,
-      serachQuery: "",
+      searchQuery: "",
       prev: "",
       next: "",
       url: "/api/v1/calculation/",
@@ -72,9 +72,31 @@ export default {
   computed: {
     filteredTableData() {
       if (this.tableData !== null) {
-        return this.tableData.results.filter((item) =>
-          item.user.email.toLowerCase().includes(this.serachQuery.toLowerCase())
-        );
+        // return this.tableData.results.filter((item) =>
+        //   item.user.email.toLowerCase().includes(this.searchQuery.toLowerCase())
+        // );
+
+        let clonedData = [...this.tableData.results],
+          result = [];
+
+        if (clonedData.length < 1) return clonedData;
+
+        for (let i = 0; i < clonedData.length; i++) {
+          const currentData = clonedData[i];
+          let isMatch = true;
+
+          if (this.searchQuery && isMatch) {
+            isMatch = currentData.user.email
+              .toLowerCase()
+              .includes(this.searchQuery.toLowerCase())
+          }
+
+          if (isMatch) {
+            result.push(currentData);
+          }
+        }
+
+        return result;
       }
     },
   },
