@@ -12,7 +12,7 @@
         >
           <input
             type="text"
-            v-model.trim="searchQuery"
+            @input="getSearchQuery($event)"
             name="search"
             placeholder="Keyword : User Email or Description"
             class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -86,11 +86,13 @@ export default {
           let isMatch = true;
 
           if (this.searchQuery && isMatch) {
-            isMatch = currentData.user.email
-              .toLowerCase()
-              .includes(this.searchQuery.toLowerCase()) || currentData.description
-              .toLowerCase()
-              .includes(this.searchQuery.toLowerCase())
+            isMatch =
+              currentData.user.email
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              currentData.description
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase());
           }
 
           if (isMatch) {
@@ -103,6 +105,9 @@ export default {
     },
   },
   methods: {
+    getSearchQuery(e) {
+      this.searchQuery = e.target.value;
+    },
     async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
       await axios
