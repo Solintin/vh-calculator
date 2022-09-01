@@ -11,7 +11,7 @@
           class="w-[500px] bg-[#ECECEC] rounded-md flex ring-1 ring-[#B659A2CC]"
         >
           <input
-            type="search"
+            type="text"
             v-model.trim="searchQuery"
             name="search"
             placeholder="Keyword : User Email or Description"
@@ -87,6 +87,8 @@ export default {
 
           if (this.searchQuery && isMatch) {
             isMatch = currentData.user.email
+              .toLowerCase()
+              .includes(this.searchQuery.toLowerCase()) || currentData.description
               .toLowerCase()
               .includes(this.searchQuery.toLowerCase())
           }
