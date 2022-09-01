@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./assets/tailwind.css";
+import vueDebounce from 'vue-debounce'
 
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
@@ -11,6 +12,8 @@ import "vue-toastification/dist/index.css";
 const options = {
   position: "top-center",
 };
+
+Vue.use(vueDebounce)
 
 
 Vue.use(Toast, options);
