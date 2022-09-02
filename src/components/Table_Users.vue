@@ -57,6 +57,8 @@
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
+          :prevPageNumber="prevPageNumber"
+          :nextPageNumber="nextPageNumber"
         />
       </div>
     </div>
@@ -69,7 +71,7 @@
 import axios from "@/Utils/axios.config.js";
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
-import Pagination from "./DataPagination.vue";
+import Pagination from "./Pagination.vue";
 import Cookies from "js-cookie";
 
 export default {
@@ -79,7 +81,9 @@ export default {
     prev: String,
     next: String,
     nextHandler: Function,
-    prevHandler: Function,
+    prevHandler: Function,   
+    prevPageNumber:Number,
+    nextPageNumber:Number 
   },
   data() {
     return {

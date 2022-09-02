@@ -17,8 +17,12 @@
               HSCODE
             </th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">SU</th>
-            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">Ex. duty</th>
-            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">Levy</th>
+            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">
+              Ex. duty
+            </th>
+            <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">
+              Levy
+            </th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">ID</th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">VAT</th>
             <th class="px-3 py-5 leading-5 text-left whitespace-nowrap">
@@ -26,9 +30,12 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="tariffData && tariffData.length > 0" class="overflow-x-auto">
+        <tbody
+          v-if="tariffData && tariffData.length > 0"
+          class="overflow-x-auto"
+        >
           <tr
-            v-for="(item, idx) in tariffData"
+            v-for="(item, idx) in tariffData.slice(0, limit)"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
             } text-base font-medium hover:bg-gray-200`"
@@ -68,14 +75,32 @@
           </h1>
         </tbody>
       </table>
-      <div v-if="tariffData && tariffData.length > 0">
+      <div
+        v-if="tariffData && tariffData.length > 0"
+        class="flex justify-between"
+      >
+        <!-- <button
+          class="py-2 px-6 text-[#DB44C9] space-x-2 flex items-center font-medium rounded"
+        >
+          Count : {{ limit }}
+        </button>
+        <button
+          class="py-2 px-6 text-[#DB44C9] space-x-2 flex items-center font-medium rounded"
+          v-if="limit < data.length"
+          @click="handleShowMore"
+        >
+          Next
+        </button> -->
         <Pagination
           :next="next"
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
           :prevPageNumber="prevPageNumber"
-        :nextPageNumber="nextPageNumber"
+          :nextPageNumber="nextPageNumber"
+          :handleShowMore="handleShowMore"
+          :limit="limit"
+          :data="tariffData"
         />
       </div>
     </div>
@@ -105,6 +130,7 @@ export default {
     prevHandler: Function,
     prevPageNumber: Number,
     nextPageNumber: Number,
+
   },
   data() {
     return {};
@@ -116,12 +142,18 @@ export default {
     return {
       data: null,
       isUpdateTariff: false,
+      limit: 50,
     };
   },
   methods: {
     update(item) {
       this.data = item;
       this.isUpdateTariff = !this.isUpdateTariff;
+    },
+    handleShowMore() {
+      if (this.tariffData.length > 0) {
+        this.limit += 50;
+      }
     },
   },
 };

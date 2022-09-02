@@ -26,7 +26,7 @@
         </thead>
         <tbody v-if="rateData && rateData.length > 0">
           <tr
-            v-for="(item, idx) in rateData"
+            v-for="(item, idx) in rateData.slice(0, limit)"
             :class="`${
               idx % 2 === 0 ? '' : 'bg-gray-100'
             } text-base font-medium  hover:bg-gray-200`"
@@ -55,13 +55,14 @@
         </tbody>
       </table>
       <div v-if="rateData && rateData.length > 0">
+      
         <Pagination
-          :next="next"
-          :prev="prev"
-          :nextHandler="nextHandler"
-          :prevHandler="prevHandler"
+        
           :prevPageNumber="prevPageNumber"
           :nextPageNumber="nextPageNumber"
+          :handleShowMore="handleShowMore"
+          :limit="limit"
+          :data="rateData"
         />
       </div>
     </div>
@@ -88,7 +89,6 @@ export default {
     prevHandler: Function,
     prevPageNumber: Number,
     nextPageNumber: Number,
-    
   },
   computed: {
     ...mapState(["loading"]),
@@ -97,16 +97,20 @@ export default {
     return {
       data: null,
       isUpdateRate: false,
+      limit: 50,
     };
   },
-  mounted() {
-    console.log(this.rateData);
-  },
+  mounted() {},
 
   methods: {
     update(item) {
       this.data = item;
       this.isUpdateRate = !this.isUpdateRate;
+    },
+    handleShowMore() {
+      if (this.rateData.length > 0) {
+        this.limit += 50;
+      }
     },
   },
 };

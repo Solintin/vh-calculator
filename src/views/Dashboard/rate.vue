@@ -23,7 +23,7 @@
       >
         <input
           type="search"
-          v-model.trim="serachQuery"
+          v-model.trim="searchQuery"
           name="search"
           placeholder="Keyword : User Email or Description"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
@@ -70,6 +70,7 @@
 <!-- eslint-disable -->
 
 <script>
+  import { mapState } from "vuex";
 import axios from "@/Utils/axios.config.js";
 import Table_Rate from "../../components/Table_Rate.vue";
 import Update from "../../components/Update.vue";
@@ -87,7 +88,7 @@ export default {
       updateModal: false,
       isLoading: false,
       rateData: null,
-      serachQuery: "",
+      searchQuery: "",
       prevRate: "",
       nextRate: "",
       urlRate: "/api/v1/rate/",
@@ -98,6 +99,7 @@ export default {
   },
 
   computed: {
+    ...mapState(["calculationData", "ratesList"]),
     getRateUpdatedDate() {
       if (this.rateData !== null) {
         return new Date(
@@ -109,14 +111,14 @@ export default {
 
     filteredRateData() {
       if (this.rateData !== null) {
-        return this.rateData.results.filter(
+        return this.calculationData.rate.filter(
           (item) =>
             item.currency_name
               .toLowerCase()
-              .includes(this.serachQuery.toLowerCase()) ||
+              .includes(this.searchQuery.toLowerCase()) ||
             item.currency_code
               .toLowerCase()
-              .includes(this.serachQuery.toLowerCase())
+              .includes(this.searchQuery.toLowerCase())
         );
       }
     },

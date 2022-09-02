@@ -53,14 +53,14 @@
         </tbody>
       </table>
 
-      <div
-        v-if="filteredTableData && filteredTableData.length > 0"
-      >
+      <div v-if="filteredTableData && filteredTableData.length > 0">
         <Pagination
           :next="next"
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
+          :prevPageNumber="prevPageNumber"
+          :nextPageNumber="nextPageNumber"
         />
       </div>
     </div>
@@ -70,7 +70,7 @@
 <script>
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
-import Pagination from "./DataPagination.vue";
+import Pagination from "./Pagination.vue";
 import { digitFormatter } from "@/Utils/helper_function";
 
 export default {
@@ -83,6 +83,8 @@ export default {
     next: String,
     nextHandler: Function,
     prevHandler: Function,
+    prevPageNumber: Number,
+    nextPageNumber: Number,
   },
   data() {
     return {};
@@ -90,7 +92,7 @@ export default {
   computed: {
     ...mapState(["loading"]),
   },
-    methods: {
+  methods: {
     digitFormatter(input) {
       return digitFormatter(input);
     },

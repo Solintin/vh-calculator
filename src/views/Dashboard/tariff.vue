@@ -69,6 +69,8 @@
 <!-- eslint-disable -->
 
 <script>
+  import { mapState } from "vuex";
+
 import axios from "@/Utils/axios.config.js";
 import Table_Tariff from "../../components/Table_Tariff.vue";
 import Update from "../../components/Update.vue";
@@ -97,6 +99,8 @@ export default {
   },
 
   computed: {
+    ...mapState(["calculationData", "ratesList"]),
+
     getTariffUpdatedDate() {
       if (this.tariffData !== null) {
         return new Date(
@@ -108,7 +112,7 @@ export default {
 
     filteredTariffData() {
       if (this.tariffData !== null) {
-        return this.tariffData.results.filter(
+        return this.calculationData.tariff.filter(
           (item) =>
             item.hs_description
               .toLowerCase()

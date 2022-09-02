@@ -32,6 +32,8 @@
           :prev="prev"
           :nextHandler="nextHandler"
           :prevHandler="prevHandler"
+          :prevPageNumber="prevPageNumber"
+          :nextPageNumber="nextPageNumber"
         />
       </div>
     </div>
@@ -82,6 +84,19 @@ export default {
               .includes(this.searchQuery.toLowerCase())
         );
       }
+    },
+    prevPageNumber() {
+      const param = new URLSearchParams(this.next);
+      const PageNumber = param.get("offset");
+      //PageNumber is gotten as a string that y (+) is to convert to interger
+      return (+PageNumber - 20) / 20 + 1;
+    },
+    nextPageNumber() {
+      const param = new URLSearchParams(this.next);
+      const PageNumber = param.get("offset");
+      //PageNumber is gotten as a string that y (+) is to convert to interger
+
+      return +PageNumber / 20 + 1;
     },
   },
   methods: {
