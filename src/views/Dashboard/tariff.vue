@@ -24,7 +24,7 @@
           type="search"
           v-model.trim="serachQuery"
           name="search"
-          placeholder="Keyword : User Email or Description"
+          placeholder="Keyword : HS CODE and HS DESCRIPTION"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
         />
         <div
@@ -69,7 +69,7 @@
 <!-- eslint-disable -->
 
 <script>
-  import { mapState } from "vuex";
+import { mapState } from "vuex";
 
 import axios from "@/Utils/axios.config.js";
 import Table_Tariff from "../../components/Table_Tariff.vue";
@@ -84,7 +84,6 @@ export default {
     return {
       tableData: null,
       isLoading: false,
-
       updateModal: false,
       isLoading: false,
       tariffData: null,
@@ -94,7 +93,6 @@ export default {
       urlTariff: "/api/v1/tariff/",
       axiosConfig: "",
       PageNumber: null,
-      
     };
   },
 
@@ -163,7 +161,7 @@ export default {
         this.nextTariff = response1.data.next;
         console.log(this.prevTariff);
         console.log(this.nextTariff);
-        
+
         console.log("Prev page:", this.prevPageNumber);
         console.log("Next page:", this.nextPageNumber);
 

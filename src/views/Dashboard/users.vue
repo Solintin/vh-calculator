@@ -14,7 +14,7 @@
           type="search"
           v-model.trim="serachQuery"
           name="search"
-          placeholder="Keyword : User Email or Description"
+          placeholder="Keyword : email"
           class="bg-transparent w-full border-none outline-none flex-1 p-3"
         />
         <div
