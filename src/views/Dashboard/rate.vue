@@ -52,12 +52,7 @@
     <div class="mt-24 table_rate">
       <Table_Rate
         :rateData="filteredRateData"
-        :next="nextRate"
-        :prev="prevRate"
-        :nextHandler="nextHandler"
-        :prevHandler="prevHandler"
-        :prevPageNumber="prevPageNumber"
-        :nextPageNumber="nextPageNumber"
+      
       />
     </div>
     <Update
@@ -99,18 +94,18 @@ export default {
   },
 
   computed: {
-    ...mapState(["calculationData", "ratesList"]),
+    ...mapState(["calculationData"]),
     getRateUpdatedDate() {
-      if (this.rateData !== null) {
+      if (this.calculationData?.rate) {
         return new Date(
-          this.rateData.results[0].date_uploaded
+          this.calculationData.rate[0].date_uploaded
         ).toLocaleDateString("en-GB");
       }
       return "Loading...";
     },
 
     filteredRateData() {
-      if (this.rateData !== null) {
+      if (this.calculationData?.rate) {
         return this.calculationData.rate.filter(
           (item) =>
             item.currency_name
@@ -122,19 +117,19 @@ export default {
         );
       }
     },
-    prevPageNumber() {
-      const param = new URLSearchParams(this.nextRate);
-      const PageNumber = param.get("offset");
-      //PageNumber is gotten as a string that y (+) is to convert to interger
-      return (+PageNumber - 20) / 20 + 1;
-    },
-    nextPageNumber() {
-      const param = new URLSearchParams(this.nextRate);
-      const PageNumber = param.get("offset");
-      //PageNumber is gotten as a string that y (+) is to convert to interger
+    // prevPageNumber() {
+    //   const param = new URLSearchParams(this.nextRate);
+    //   const PageNumber = param.get("offset");
+    //   //PageNumber is gotten as a string that y (+) is to convert to interger
+    //   return (+PageNumber - 20) / 20 + 1;
+    // },
+    // nextPageNumber() {
+    //   const param = new URLSearchParams(this.nextRate);
+    //   const PageNumber = param.get("offset");
+    //   //PageNumber is gotten as a string that y (+) is to convert to interger
 
-      return +PageNumber / 20 + 1;
-    },
+    //   return +PageNumber / 20 + 1;
+    // },
   },
   mounted() {
     let token = Cookies.get("token");
@@ -143,7 +138,7 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     };
-    this.fetchRate(this.urlRate);
+    // this.fetchRate(this.urlRate);
     this.getCalculationData();
 
   },
@@ -153,50 +148,48 @@ export default {
       this.$store.dispatch("setLoading", true);
       //tariffdata is Fetched due to the rate change date on the invoice to be printed
       try {
-        const [response1, response2, response3]  = await Promise.all([
-          axios.get("/api/v1/tariff/", this.axiosConfig),
-          axios.get("/api/v1/data/", this.axiosConfig),
-          axios.get("/api/v1/rate/", this.axiosConfig),
-        ]);
+        const response = await axios.get("/api/v1/data/", this.axiosConfig)
+;
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("fetchCalculationData", response2.data);
+        this.$store.dispatch("fetchCalculationData", response.data);
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
+
         console.log(err);
       }
     },
-    async fetchRate(urlRate) {
-      this.$store.dispatch("setLoading", true);
-      this.isLoading = true;
+    // async fetchRate(urlRate) {
+    //   this.$store.dispatch("setLoading", true);
+    //   this.isLoading = true;
 
-      try {
-        const [response1] = await Promise.all([
-          axios.get(urlRate, this.axiosConfig),
-        ]);
-        this.rateData = response1.data;
+    //   try {
+    //     const [response1] = await Promise.all([
+    //       axios.get(urlRate, this.axiosConfig),
+    //     ]);
+    //     this.rateData = response1.data;
 
-        this.prevRate = response1.data.previous;
-        this.nextRate = response1.data.next;
-        console.log(this.prevRate);
-        console.log(this.nextRate);
+    //     this.prevRate = response1.data.previous;
+    //     this.nextRate = response1.data.next;
+    //     console.log(this.prevRate);
+    //     console.log(this.nextRate);
         
-        console.log("Prev page:", this.prevPageNumber);
-        console.log("Next page:", this.nextPageNumber);
+    //     console.log("Prev page:", this.prevPageNumber);
+    //     console.log("Next page:", this.nextPageNumber);
 
-        this.$store.dispatch("setLoading", false);
-        this.isLoading = false;
+    //     this.$store.dispatch("setLoading", false);
+    //     this.isLoading = false;
 
-        this.$store.dispatch("rateList", response1.data);
-      } catch (err) {
-        this.$store.dispatch("setLoading", false);
-        this.isLoading = false;
+    //     this.$store.dispatch("rateList", response1.data);
+    //   } catch (err) {
+    //     this.$store.dispatch("setLoading", false);
+    //     this.isLoading = false;
 
-        console.log(err);
-      }
-    },
+    //     console.log(err);
+    //   }
+    // },
 
     handleUpdateModal() {
       this.updateModal = !this.updateModal;

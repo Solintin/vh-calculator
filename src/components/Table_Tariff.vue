@@ -92,12 +92,7 @@
           Next
         </button> -->
         <Pagination
-          :next="next"
-          :prev="prev"
-          :nextHandler="nextHandler"
-          :prevHandler="prevHandler"
-          :prevPageNumber="prevPageNumber"
-          :nextPageNumber="nextPageNumber"
+        
           :handleShowMore="handleShowMore"
           :limit="limit"
           :data="tariffData"
@@ -124,12 +119,7 @@ export default {
   components: { Loading, Update_Tariff, Pagination },
   props: {
     tariffData: Array,
-    prev: String,
-    next: String,
-    nextHandler: Function,
-    prevHandler: Function,
-    prevPageNumber: Number,
-    nextPageNumber: Number,
+ 
 
   },
   data() {

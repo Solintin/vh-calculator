@@ -55,11 +55,7 @@
         </tbody>
       </table>
       <div v-if="rateData && rateData.length > 0">
-      
         <Pagination
-        
-          :prevPageNumber="prevPageNumber"
-          :nextPageNumber="nextPageNumber"
           :handleShowMore="handleShowMore"
           :limit="limit"
           :data="rateData"
@@ -83,12 +79,6 @@ export default {
   props: {
     rateData: Array,
     loadng: Boolean,
-    prev: String,
-    next: String,
-    nextHandler: Function,
-    prevHandler: Function,
-    prevPageNumber: Number,
-    nextPageNumber: Number,
   },
   computed: {
     ...mapState(["loading"]),

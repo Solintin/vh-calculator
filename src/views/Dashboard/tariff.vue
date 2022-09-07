@@ -49,15 +49,7 @@
       </div>
     </div>
     <div class="mt-24 table_rate">
-      <Table_Tariff
-        :tariffData="filteredTariffData"
-        :next="nextTariff"
-        :prev="prevTariff"
-        :nextHandler="nextHandler"
-        :prevHandler="prevHandler"
-        :prevPageNumber="prevPageNumber"
-        :nextPageNumber="nextPageNumber"
-      />
+      <Table_Tariff :tariffData="filteredTariffData" />
     </div>
     <Update
       v-if="updateModal"
@@ -100,16 +92,16 @@ export default {
     ...mapState(["calculationData", "ratesList"]),
 
     getTariffUpdatedDate() {
-      if (this.tariffData !== null) {
+      if (this.calculationData?.tariff) {
         return new Date(
-          this.tariffData.results[0].date_uploaded
+          this.calculationData.tariff[0].date_uploaded //Pick the first data
         ).toLocaleDateString("en-GB");
       }
       return "Loading...";
     },
 
     filteredTariffData() {
-      if (this.tariffData !== null) {
+      if (this.calculationData?.tariff) {
         return this.calculationData.tariff.filter(
           (item) =>
             item.hs_description
@@ -122,19 +114,19 @@ export default {
         );
       }
     },
-    prevPageNumber() {
-      const param = new URLSearchParams(this.nextTariff);
-      const PageNumber = param.get("offset");
-      //PageNumber is gotten as a string that y (+) is to convert to interger
-      return (+PageNumber - 20) / 20 + 1;
-    },
-    nextPageNumber() {
-      const param = new URLSearchParams(this.nextTariff);
-      const PageNumber = param.get("offset");
-      //PageNumber is gotten as a string that y (+) is to convert to interger
+    // prevPageNumber() {
+    //   const param = new URLSearchParams(this.nextTariff);
+    //   const PageNumber = param.get("offset");
+    //   //PageNumber is gotten as a string that y (+) is to convert to interger
+    //   return (+PageNumber - 20) / 20 + 1;
+    // },
+    // nextPageNumber() {
+    //   const param = new URLSearchParams(this.nextTariff);
+    //   const PageNumber = param.get("offset");
+    //   //PageNumber is gotten as a string that y (+) is to convert to interger
 
-      return +PageNumber / 20 + 1;
-    },
+    //   return +PageNumber / 20 + 1;
+    // },
   },
   mounted() {
     let token = Cookies.get("token");
@@ -145,7 +137,6 @@ export default {
     };
     // this.fetchTariff(this.urlTariff);
     this.getCalculationData();
-
   },
 
   methods: {
@@ -153,15 +144,11 @@ export default {
       this.$store.dispatch("setLoading", true);
       //tariffdata is Fetched due to the rate change date on the invoice to be printed
       try {
-        const [response1, response2, response3]  = await Promise.all([
-          axios.get("/api/v1/tariff/", this.axiosConfig),
-          axios.get("/api/v1/data/", this.axiosConfig),
-          axios.get("/api/v1/rate/", this.axiosConfig),
-        ]);
+        const response = await axios.get("/api/v1/data/", this.axiosConfig);
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
-        this.$store.dispatch("fetchCalculationData", response2.data);
+        this.$store.dispatch("fetchCalculationData", response.data);
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
@@ -169,35 +156,35 @@ export default {
         console.log(err);
       }
     },
-    async fetchTariff(urlTariff) {
-      this.$store.dispatch("setLoading", true);
-      this.isLoading = true;
+    // async fetchTariff(urlTariff) {
+    //   this.$store.dispatch("setLoading", true);
+    //   this.isLoading = true;
 
-      try {
-        const [response1] = await Promise.all([
-          axios.get(urlTariff, this.axiosConfig),
-        ]);
-        this.tariffData = response1.data;
+    //   try {
+    //     const [response1] = await Promise.all([
+    //       axios.get(urlTariff, this.axiosConfig),
+    //     ]);
+    //     this.tariffData = response1.data;
 
-        this.prevTariff = response1.data.previous;
-        this.nextTariff = response1.data.next;
-        console.log(this.prevTariff);
-        console.log(this.nextTariff);
+    //     this.prevTariff = response1.data.previous;
+    //     this.nextTariff = response1.data.next;
+    //     console.log(this.prevTariff);
+    //     console.log(this.nextTariff);
 
-        console.log("Prev page:", this.prevPageNumber);
-        console.log("Next page:", this.nextPageNumber);
+    //     console.log("Prev page:", this.prevPageNumber);
+    //     console.log("Next page:", this.nextPageNumber);
 
-        this.$store.dispatch("setLoading", false);
-        this.isLoading = false;
+    //     this.$store.dispatch("setLoading", false);
+    //     this.isLoading = false;
 
-        this.$store.dispatch("tariffList", response1.data);
-      } catch (err) {
-        this.$store.dispatch("setLoading", false);
-        this.isLoading = false;
+    //     this.$store.dispatch("tariffList", response1.data);
+    //   } catch (err) {
+    //     this.$store.dispatch("setLoading", false);
+    //     this.isLoading = false;
 
-        console.log(err);
-      }
-    },
+    //     console.log(err);
+    //   }
+    // },
 
     handleUpdateModal() {
       this.updateModal = !this.updateModal;

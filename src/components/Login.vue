@@ -80,7 +80,7 @@
               class="h-6 w-6 rounded-full border-4 border-t-[#fff] border-r-[#fff] border-b-[#ed323730] border-l-[#ed323730] animate-spin"
             ></div>
 
-            <div v-else class="font-bold text-xl">Login In</div>
+            <div v-else class="font-bold text-xl">Login</div>
 
             <i class="fa-solid fa-arrow-right-long text-white text-xl mt-1"></i>
           </button>
@@ -105,7 +105,6 @@
 // import { required, email } from "@vuelidate/validators";
 import { validationMixin } from "vuelidate";
 import { required, minLength, email } from "vuelidate/lib/validators";
-import { mapState } from "vuex";
 import { useLogin } from "@/Utils/useAuth";
 
 export default {
@@ -116,20 +115,20 @@ export default {
     return {
       password: "",
       email: "",
+      loading: false,
     };
   },
 
-  computed: {
-    ...mapState(["loading"]),
-  },
-
   methods: {
-    submitForm() {
+    handleLoading(state) {
+      this.loading = state;
+    },
+    async submitForm() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         //Login Logic
         const credentials = { email: this.email, password: this.password };
-        useLogin(credentials, this.$store, this.$router, this);
+        await useLogin(credentials, this.$store, this.$router, this, this.handleLoading);
       } else {
       }
     },

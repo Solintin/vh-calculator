@@ -145,24 +145,31 @@ export default {
       confirm_password: "",
       email: "",
       user_type: "user",
+      loading: false,
     };
   },
 
-  computed: {
-    ...mapState(["loading"]),
-  },
-
   methods: {
-    submitForm() {
+    handleLoading(state) {
+      this.loading = state;
+    },
+    async submitForm() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         //Login Logic
+
         const credentials = {
           email: this.email,
           password: this.password,
           user_type: this.user_type,
         };
-        useRegister(credentials, this.$store, this.$router, this);
+        await useRegister(
+          credentials,
+          this.$store,
+          this.$router,
+          this,
+          this.handleLoading
+        );
       } else {
       }
     },
