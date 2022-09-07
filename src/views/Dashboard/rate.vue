@@ -111,7 +111,7 @@ export default {
 
     filteredRateData() {
       if (this.rateData !== null) {
-        return this.ratesList.results.filter(
+        return this.calculationData.rate.filter(
           (item) =>
             item.currency_name
               .toLowerCase()
@@ -144,9 +144,31 @@ export default {
       },
     };
     this.fetchRate(this.urlRate);
+    this.getCalculationData();
+
   },
 
   methods: {
+    async getCalculationData() {
+      this.$store.dispatch("setLoading", true);
+      //tariffdata is Fetched due to the rate change date on the invoice to be printed
+      try {
+        const [response1, response2, response3]  = await Promise.all([
+          axios.get("/api/v1/tariff/", this.axiosConfig),
+          axios.get("/api/v1/data/", this.axiosConfig),
+          axios.get("/api/v1/rate/", this.axiosConfig),
+        ]);
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        this.$store.dispatch("fetchCalculationData", response2.data);
+      } catch (err) {
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        console.log(err);
+      }
+    },
     async fetchRate(urlRate) {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;

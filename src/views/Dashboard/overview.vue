@@ -103,6 +103,26 @@ export default {
     getSearchQuery(e) {
       this.searchQuery = e.target.value;
     },
+      async getCalculationData() {
+      this.$store.dispatch("setLoading", true);
+      //tariffdata is Fetched due to the rate change date on the invoice to be printed
+      try {
+        const [response1, response2, response3]  = await Promise.all([
+          axios.get("/api/v1/tariff/", this.axiosConfig),
+          axios.get("/api/v1/data/", this.axiosConfig),
+          axios.get("/api/v1/rate/", this.axiosConfig),
+        ]);
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        this.$store.dispatch("fetchCalculationData", response2.data);
+      } catch (err) {
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        console.log(err);
+      }
+    },
     async fetchCalculations(url) {
       this.$store.dispatch("setLoading", true);
       await axios

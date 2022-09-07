@@ -97,7 +97,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["calculationData", "tariffsList"]),
+    ...mapState(["calculationData", "ratesList"]),
 
     getTariffUpdatedDate() {
       if (this.tariffData !== null) {
@@ -110,7 +110,7 @@ export default {
 
     filteredTariffData() {
       if (this.tariffData !== null) {
-        return this.tariffsList.results.filter(
+        return this.calculationData.tariff.filter(
           (item) =>
             item.hs_description
               .toLowerCase()
@@ -143,10 +143,32 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     };
-    this.fetchTariff(this.urlTariff);
+    // this.fetchTariff(this.urlTariff);
+    this.getCalculationData();
+
   },
 
   methods: {
+    async getCalculationData() {
+      this.$store.dispatch("setLoading", true);
+      //tariffdata is Fetched due to the rate change date on the invoice to be printed
+      try {
+        const [response1, response2, response3]  = await Promise.all([
+          axios.get("/api/v1/tariff/", this.axiosConfig),
+          axios.get("/api/v1/data/", this.axiosConfig),
+          axios.get("/api/v1/rate/", this.axiosConfig),
+        ]);
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        this.$store.dispatch("fetchCalculationData", response2.data);
+      } catch (err) {
+        this.$store.dispatch("setLoading", false);
+        this.isLoading = false;
+
+        console.log(err);
+      }
+    },
     async fetchTariff(urlTariff) {
       this.$store.dispatch("setLoading", true);
       this.isLoading = true;
