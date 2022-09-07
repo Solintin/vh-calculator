@@ -111,7 +111,7 @@ export default {
 
     filteredRateData() {
       if (this.rateData !== null) {
-        return this.calculationData.rate.filter(
+        return this.ratesList.results.filter(
           (item) =>
             item.currency_name
               .toLowerCase()

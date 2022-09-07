@@ -97,7 +97,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["calculationData", "ratesList"]),
+    ...mapState(["calculationData", "tariffsList"]),
 
     getTariffUpdatedDate() {
       if (this.tariffData !== null) {
@@ -110,7 +110,7 @@ export default {
 
     filteredTariffData() {
       if (this.tariffData !== null) {
-        return this.calculationData.tariff.filter(
+        return this.tariffsList.results.filter(
           (item) =>
             item.hs_description
               .toLowerCase()
