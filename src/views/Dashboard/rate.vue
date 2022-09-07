@@ -165,7 +165,6 @@ export default {
       } catch (err) {
         this.$store.dispatch("setLoading", false);
         this.isLoading = false;
-
         console.log(err);
       }
     },
