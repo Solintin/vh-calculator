@@ -13,7 +13,7 @@
         @change="handleImageUpload($event)"
         type="file"
         name=""
-        accept=".csv, .xls, xlsx"
+        accept=".csv, .xls, .xlsx"
         id="fileUpload"
         hidden
       />
