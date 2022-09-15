@@ -12,28 +12,44 @@
               >HS-CODE</label
             >
 
-            <lv-dropdown
+            <model-list-select
+              :list="fetchCalculationData.tariff"
+              v-model="hscodeValue"
+              option-value="hscode"
+              option-text="hscode"
+              placeholder="Select Hscode"
+            >
+            </model-list-select>
+
+            <!-- <lv-dropdown
               v-model="selectedCode"
-              :options="calculationData.tariff.slice(0, 100)"
+              :options="fetchCalculationData.tariff.slice(0, 1000)"
               optionLabel="hscode"
               placeholder="Select Hscode Description "
               editable
               clearable
               required
-            />
+            /> -->
           </div>
           <div>
             <label for="hscode" class="font-medium text-sm md:text-base"
               >HS-CODE Description</label
             >
-            <lv-dropdown
+            <!-- <lv-dropdown
               v-model="selectedCode"
-              :options="calculationData.tariff.slice(0, 100)"
+              :options="fetchCalculationData.tariff.slice(0, 1000)"
               optionLabel="hs_description"
-              placeholder="Select HSCODE Code"
+              placeholder="Select HSCODE Description"
               editable
               clearable
               required
+            /> -->
+            <input
+              required
+              placeholder="0"
+              type="text"
+              class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
+              v-model="selectedCode.hs_description"
             />
           </div>
         </div>
@@ -63,7 +79,7 @@
 
               <lv-dropdown
                 v-model="selectedCurrency"
-                :options="calculationData.rate"
+                :options="fetchCalculationData.rate"
                 optionLabel="currency_code"
                 placeholder="Select currency"
                 editable
@@ -105,10 +121,7 @@
                     title="Switch between insurance this.actual or insurance percentage"
                     class="pr-2"
                   >
-                    <i
-                      class="fa fa-info-circle text-xl"
-                      aria-hidden="true"
-                    ></i>
+                    <i class="fa fa-info-circle text-xl" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -189,10 +202,11 @@ import Result from "./Result.vue";
 import Loading from "./Loading.vue";
 import Cookies from "js-cookie";
 import LvDropdown from "lightvue/dropdown";
+import { ModelListSelect } from "vue-search-select";
 
 export default {
-  props: [],
-  components: { Result, Loading, LvDropdown },
+  props: ["fetchCalculationData"],
+  components: { Result, Loading, LvDropdown, ModelListSelect },
 
   data() {
     return {
@@ -206,7 +220,11 @@ export default {
       insuranceType: "actual",
       axiosConfig: "",
       selectedCurrency: null,
-      selectedCode: null,
+      selectedCode: {
+        hscode: "",
+        hs_description: "",
+      },
+      hscodeValue: "",
       item: {
         description: "",
         fob: null,
@@ -225,7 +243,7 @@ export default {
         selectedCurrency: this.selectedCurrency,
         item: this.item,
         dateTime: new Date(
-          this.ratesList.results[0].date_uploaded
+          this.fetchCalculationData.rate[0].date_uploaded
         ).toLocaleDateString(),
       };
     },
@@ -237,6 +255,13 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     };
+  },
+  watch: {
+    hscodeValue() {
+      if (this.hscodeValue.length > 7) {
+        this.setHsCodeValue();
+      }
+    },
   },
   methods: {
     setShowResult() {
@@ -269,10 +294,14 @@ export default {
         this.showCurrency = !this.showCurrency;
       }
     },
-    // setHsDesc() {
-    //   this.selectedCode.code = value.hscode;
-    //   this.selectedCode.description = value.hs_description;
-    // },
+    setHsCodeValue() {
+      this.selectedCode = this.fetchCalculationData.tariff.find(
+        (item) => item.hscode === this.hscodeValue
+      );
+    },
+    handleHscodeSelection(value) {
+      this.selectedCode.code = JSON.parse(value);
+    },
     setCurrency(value) {
       this.selectedCurrency.currency_code = value.currency_code;
       if (this.showCurrency) {
@@ -287,7 +316,7 @@ export default {
     handleCalculation(e) {
       e.preventDefault();
       const data = {
-        hscode: parseFloat(this.selectedCode.hscode),
+        hscode: this.selectedCode.hscode,
         hscode_description: this.selectedCode.hs_description,
         item_description: this.item.description,
         currency: this.selectedCurrency.currency_code,

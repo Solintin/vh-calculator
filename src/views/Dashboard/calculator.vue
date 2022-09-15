@@ -1,6 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div class="py-[50px]">
+    <Loading v-if="isLoading" />
     <div class="mb-3 border-b border-purple-200 pl-10">
       <div
         class="flex text-base md:text-2xl font-medium space-x-5 container mx-auto"
@@ -31,7 +32,7 @@
     </div>
 
     <Guide v-if="Tab === 'help'" />
-    <Calculator v-else />
+    <Calculator v-else :fetchCalculationData="fetchCalculationData" />
   </div>
 </template>
 <!-- eslint-disable -->
@@ -41,14 +42,17 @@ import Guide from "@/components/Guide.vue";
 import Calculator from "@/components/MainCalculator.vue";
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
+import Loading from "../../components/Loading.vue";
 
 export default {
   name: "calculator-app",
-  components: { Guide, Calculator },
+  components: { Guide, Calculator, Loading },
   data() {
     return {
       Tab: "help",
       axiosConfig: "",
+      fetchCalculationData: null,
+      isLoading: false,
     };
   },
 
@@ -67,22 +71,15 @@ export default {
     },
 
     async getCalculationData() {
-      this.$store.dispatch("setLoading", true);
-      //tariffdata is Fetched due to the rate change date on the invoice to be printed
+      this.isLoading = true;
       try {
-        const [response1, response2, response3]  = await Promise.all([
-          axios.get("/api/v1/tariff/", this.axiosConfig),
-          axios.get("/api/v1/data/", this.axiosConfig),
-          axios.get("/api/v1/rate/", this.axiosConfig),
-        ]);
-        this.$store.dispatch("setLoading", false);
-        this.isLoading = false;
-        this.$store.dispatch("rateList", response3.data);
-
-        this.$store.dispatch("fetchCalculationData", response2.data);
-        this.$store.dispatch("tariffList", response1.data);
+        axios.get("/api/v1/data/", this.axiosConfig).then((res) => {
+          this.isLoading = false;
+          console.log(res.data);
+          this.$store.dispatch("fetchCalculationData", res.data);
+          this.fetchCalculationData = res.data;
+        });
       } catch (err) {
-        this.$store.dispatch("setLoading", false);
         this.isLoading = false;
 
         console.log(err);

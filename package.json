@@ -23,6 +23,7 @@
     "vue-debounce": "^4.0.0",
     "vue-html2pdf": "^1.8.0",
     "vue-router": "^3.2.0",
+    "vue-search-select": "^2.9.5",
     "vue-toast-notification": "^0.6.3",
     "vue-toastification": "^1.7.14",
     "vuelidate": "^0.7.7",

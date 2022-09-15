@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import "./assets/tailwind.css";
 import vueDebounce from 'vue-debounce'
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
