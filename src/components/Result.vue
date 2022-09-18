@@ -2,98 +2,174 @@
 
 <template>
   <div class="layout py-10">
-    <div class="update_box max-w-max overflow-y-auto  py-8 px-4 md:px-8 space-y-8">
+    <div
+      class="update_box max-w-4xl overflow-y-auto py-8 px-4 md:px-8 space-y-8"
+    >
       <h1 class="text-xl font-medium text-center mb-3 underline">
         Calculation Details
       </h1>
 
       <div class="divide-y-4 capitalize text-xs md:text-lg font-medium">
         <div class="divide-y-2">
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div
+            class="grid grid-cols-12 gap-4 py-3 bg-pink-300 px-1 rounded-t-md"
+          >
+            <div class="col-span-7">
+              <p class="text-black font-medium">Parameter</p>
+            </div>
+            <div class="col-span-3">Value</div>
+            <div class="col-span-2">Exclude</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">CF</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.cf_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <!-- <LvToggleSwitch
+                v-model="checked1"
+                dense
+                icon="light-icon-check"
+              /> -->
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">
-                CIF (Sum of FOB, Insurance and Freight)
+                CIF <small>(Sum of FOB, Insurance and Freight)</small>
               </p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.cif_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <!-- <LvToggleSwitch
+                v-model="checked1"
+                dense
+                icon="light-icon-check"
+              /> -->
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">ID</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.id_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="idToggle"
+                dense
+                icon="light-icon-check"
+              />
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">Surcharge</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.sc_NGN) }} NGN
             </div>
-          </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
-              <p class="text-gray-500 font-medium">CISS (1% of FOB value)</p>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="surchargeToggle"
+                dense
+                icon="light-icon-check"
+              />
             </div>
-            <div class="col-span-3">
+          </div>
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
+              <p class="text-gray-500 font-medium">
+                CISS <small>(1% of FOB value)</small>
+              </p>
+            </div>
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.ciss_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="cissToggle"
+                dense
+                icon="light-icon-check"
+              />
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">Levy</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.levy_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="levyToggle"
+                dense
+                icon="light-icon-check"
+              />
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">Excise duty</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.exercise_duty_NGN) }} NGN
             </div>
-          </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
-              <p class="text-gray-500 font-medium">ETLS (0.5% of CIF)</p>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="exdutyToggle"
+                dense
+                icon="light-icon-check"
+              />
             </div>
-            <div class="col-span-3">
+          </div>
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
+              <p class="text-gray-500 font-medium">
+                ETLS <small>(0.5% of CIF)</small>
+              </p>
+            </div>
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.etls_NGN) }} NGN
             </div>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="etlsToggle"
+                dense
+                icon="light-icon-check"
+              />
+            </div>
           </div>
-          <div class="grid grid-cols-12 py-3">
-            <div class="col-span-9">
+          <div class="grid grid-cols-12 gap-4 py-3 px-1">
+            <div class="col-span-7">
               <p class="text-gray-500 font-medium">VAT</p>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-3 text-right">
               {{ digitFormatter(result.vat_NGN) }} NGN
+            </div>
+            <div class="col-span-2">
+              <LvToggleSwitch
+                v-model="vatToggle"
+                dense
+                icon="light-icon-check"
+              />
             </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-12 py-4">
-        
-
-          <div class="col-span-9">
-              <p class="font-medium">Total import duty payable</p>
-            </div>
-            <div class="col-span-3 underline">
-              {{ digitFormatter(result.result_NGN) }} NGN
-            </div>
+        <div class="grid grid-cols-12 gap-4 py-4">
+          <div class="col-span-7">
+            <p class="font-medium">Total import duty payable</p>
+          </div>
+          <div class="col-span-3 underline">
+            {{ digitFormatter(calcuateTotal) }} NGN
+          </div>
         </div>
       </div>
 
@@ -143,11 +219,13 @@ import { mapState } from "vuex";
 import Print from "./Print";
 import { digitFormatter } from "@/Utils/helper_function";
 import VueHtml2pdf from "vue-html2pdf";
+import LvToggleSwitch from "lightvue/toggle-switch";
 
 export default {
   components: {
     Print,
     VueHtml2pdf,
+    LvToggleSwitch,
   },
   props: {
     setShowResult: Function,
@@ -155,7 +233,15 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      idToggle: true,
+      surchargeToggle: true,
+      cissToggle: true,
+      levyToggle: true,
+      exdutyToggle: true,
+      etlsToggle: true,
+      vatToggle: true,
+    };
   },
 
   computed: {
@@ -184,6 +270,38 @@ export default {
           orientation: this.controlValue.pdfOrientation,
         },
       };
+    },
+    idTotal() {
+      return this.idToggle ? this.result.id_NGN : 0;
+    },
+    surchargeTotal() {
+      return this.surchargeToggle ? this.result.sc_NGN : 0;
+    },
+    cissTotal() {
+      return this.cissToggle ? this.result.ciss_NGN : 0;
+    },
+    levyTotal() {
+      return this.levyToggle ? this.result.levy_NGN : 0;
+    },
+    exdutyTotal() {
+      return this.exdutyToggle ? this.result.exercise_duty_NGN : 0;
+    },
+    etlsTotal() {
+      return this.etlsToggle ? this.result.etls_NGN : 0;
+    },
+    vatTotal() {
+      return this.vatToggle ? this.result.vat_NGN : 0;
+    },
+    calcuateTotal() {
+      return (
+        this.idTotal +
+        this.surchargeTotal +
+        this.cissTotal +
+        this.levyTotal +
+        this.exdutyTotal +
+        this.etlsTotal +
+        this.vatTotal
+      );
     },
   },
   methods: {

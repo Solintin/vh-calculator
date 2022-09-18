@@ -48,6 +48,7 @@
               required
               placeholder="0"
               type="text"
+              readonly
               class="text-xs md:text-lg truncate w-full px-4 py-3 rounded-md border border-[#DB44C9] bg-[#ECD0E9] outline-none"
               v-model="selectedCode.hs_description"
             />
