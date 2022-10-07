@@ -41,11 +41,11 @@
           FOB: {{ result.item.fob }} {{ result.selectedCurrency.currency_code }}
         </div>
         <div class="font-medium">
-          Insurance: {{ result.item.freight }}
+          Insurance: {{ result.item.insurance }}
           {{ result.selectedCurrency.currency_code }}
         </div>
         <div class="font-medium">
-          Freight: {{ result.item.insurance }}
+          Freight: {{ result.item.freight }}
           {{ result.selectedCurrency.currency_code }}
         </div>
       </div>
