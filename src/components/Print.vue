@@ -58,7 +58,7 @@
         <div class="divide-y-2">
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">CF</p>
+              <p class="text-gray-500 font-medium">CF <small>(Sum of FOB and Freight)</small></p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.cf_NGN) }} NGN
@@ -67,7 +67,7 @@
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
               <p class="text-gray-500 font-medium">
-                CIF (Sum of FOB, Insurance and Freight)
+                CIF <small>(Sum of FOB, Insurance and Freight)</small>
               </p>
             </div>
             <div class="col-span-3">
@@ -76,7 +76,7 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">ID</p>
+              <p class="text-gray-500 font-medium">ID     <small>({{ result.id_percentage * 100 }}% of CIF)</small> </p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.id_NGN) }} NGN
@@ -84,7 +84,7 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">Surcharge</p>
+              <p class="text-gray-500 font-medium">Surcharge <small>(7% of ID)</small></p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.sc_NGN) }} NGN
@@ -100,7 +100,7 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">Levy</p>
+              <p class="text-gray-500 font-medium">Levy<small>({{ result.levy_percentage * 100 }}% of CIF)</small>  </p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.levy_NGN) }} NGN
@@ -108,7 +108,7 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">Excise duty</p>
+              <p class="text-gray-500 font-medium">Excise duty <small>({{ result.exercise_duty_percentage * 100 }}% of CIF)</small> </p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.exercise_duty_NGN) }} NGN
@@ -124,7 +124,7 @@
           </div>
           <div class="grid grid-cols-12 py-3">
             <div class="col-span-9">
-              <p class="text-gray-500 font-medium">VAT</p>
+              <p class="text-gray-500 font-medium">VAT <small>({{ result.vat_percentage * 100 }}% of CIF+ID+SC+CISS+ELTS)</small> </p>
             </div>
             <div class="col-span-3">
               {{ digitFormatter(result.vat_NGN) }} NGN
