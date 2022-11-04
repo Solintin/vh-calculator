@@ -11,7 +11,7 @@
           class="outline-none"
           :class="
             Tab === 'help'
-              ? 'border-4 border-gray-300 bg-gray-300 rounded-t px-5 py-2 text-white transform-translate duration-300'
+              ? 'border-4  bg-[#DB44C990] rounded-t-xl px-5 py-2 text-white transform-translate duration-300'
               : 'text-gray-500'
           "
         >
@@ -22,7 +22,7 @@
           class="outline-none"
           :class="
             Tab === 'calculator'
-              ? 'border-4 border-gray-300 bg-gray-300 rounded-t px-5 py-2 text-white transform-translate duration-300'
+              ? 'border-4  bg-[#DB44C990] rounded-t-xl px-5 py-2 text-white transform-translate duration-300'
               : 'text-gray-500'
           "
         >
@@ -72,11 +72,14 @@ export default {
 
     async getCalculationData() {
       this.isLoading = true;
+      console.log(this.isLoading);
       try {
         axios.get("/api/v1/data/", this.axiosConfig).then((res) => {
           this.$store.dispatch("fetchCalculationData", res.data);
           this.fetchCalculationData = res.data;
           this.isLoading = false;
+          console.log(this.isLoading);
+
         });
       } catch (err) {
         this.isLoading = false;
