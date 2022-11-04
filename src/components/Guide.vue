@@ -36,7 +36,7 @@
         />
         <h1 class="text-base md:text-lg font-bold uppercase">2. CONTENT</h1>
         <p class="text-xs md:text-base">
-          Use Nigeria firs and No 1 custom duty calculator software to calculate
+          Use Nigeria first and No 1 custom duty calculator software to calculate
           total import duty payable to the Nigerian customs Service for all
           imoprts, fronm any country to Nigeria. With Valuhandlers Custom duty
           calculator, you are able to estimate all taxes, levies and duties to

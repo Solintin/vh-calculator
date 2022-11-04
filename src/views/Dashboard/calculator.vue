@@ -74,10 +74,9 @@ export default {
       this.isLoading = true;
       try {
         axios.get("/api/v1/data/", this.axiosConfig).then((res) => {
-          this.isLoading = false;
-          console.log(res.data);
           this.$store.dispatch("fetchCalculationData", res.data);
           this.fetchCalculationData = res.data;
+          this.isLoading = false;
         });
       } catch (err) {
         this.isLoading = false;
