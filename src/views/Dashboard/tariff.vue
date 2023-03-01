@@ -94,7 +94,7 @@ export default {
     getTariffUpdatedDate() {
       if (this.calculationData?.tariff) {
         return new Date(
-          this.calculationData.tariff[0].date_uploaded //Pick the first data
+          this.calculationData.tariff[0]?.date_uploaded //Pick the first data
         ).toLocaleDateString("en-GB");
       }
       return "Loading...";
