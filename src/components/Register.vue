@@ -144,7 +144,7 @@ export default {
       password: "",
       confirm_password: "",
       email: "",
-      user_type: "user",
+      user_type: "Using",
       loading: false,
     };
   },

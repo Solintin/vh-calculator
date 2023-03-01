@@ -13,11 +13,7 @@ export const useRegister = (credentials, store, router, dis, handleLoading) => {
       dis.$toast.success("Registration Successful");
 
       const { user_type } = response.data;
-      if (user_type === "Admin") {
-        router.push("/admin/overview");
-      } else {
-        router.push("/calculator");
-      }
+      router.push("/");
     })
     .catch((error) => {
       handleLoading(false);

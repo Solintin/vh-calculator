@@ -2,6 +2,7 @@
   "name": "vh-calculator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://vhidutycalculator.com",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
