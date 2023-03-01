@@ -8,7 +8,7 @@ const token = Cookies.get("token");
 // Next we make an 'instance' of it
 const instance = axios.create({
   // .. where we make our configurations
-  baseURL: "https://valuehandler.herokuapp.com",
+  baseURL: "https://api.vhidutycalculator.com",
 });
 
 // Where you would set stuff like your 'Authorization' header, etc ...
