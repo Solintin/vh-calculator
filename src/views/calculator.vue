@@ -1,6 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div class="pb-[50px] pt-5">
+    <Loading v-if="isLoading"/>
     <p class="text-lg font-medium my-5 pl-5 whitespace-nowrap truncate">
       Welcome back {{ $store.state.currentUser.user.email }}!
     </p>
@@ -45,6 +46,7 @@ import Guide from "@/components/Guide.vue";
 import Calculator from "@/components/MainCalculator.vue";
 import axios from "@/Utils/axios.config.js";
 import Cookies from "js-cookie";
+import Loading from '../components/Loading.vue';
 
 const token = Cookies.get("token");
 const axiosConfig = {
@@ -54,7 +56,7 @@ const axiosConfig = {
 };
 export default {
   name: "calculator-app",
-  components: { Guide, Calculator },
+  components: { Guide, Calculator, Loading },
   data() {
     return {
       Tab: "help",

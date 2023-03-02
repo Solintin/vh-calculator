@@ -13,7 +13,7 @@
             >
 
             <model-list-select
-              :list="fetchCalculationData.tariff"
+              :list="calculationData.tariff"
               v-model="hscodeValue"
               option-value="hscode"
               option-text="hscode"
@@ -80,7 +80,7 @@
 
               <lv-dropdown
                 v-model="selectedCurrency"
-                :options="fetchCalculationData.rate"
+                :options="calculationData.rate"
                 optionLabel="currency_code"
                 placeholder="Select currency"
                 editable
@@ -244,12 +244,13 @@ export default {
         selectedCurrency: this.selectedCurrency,
         item: this.item,
         dateTime: new Date(
-          this.fetchCalculationData.rate[0].date_uploaded
+          this.calculationData.rate[0].date_uploaded
         ).toLocaleDateString(),
       };
     },
   },
   mounted() {
+    console.log(this.calculationData);
     let token = Cookies.get("token");
     this.axiosConfig = {
       headers: {
@@ -296,7 +297,7 @@ export default {
       }
     },
     setHsCodeValue() {
-      this.selectedCode = this.fetchCalculationData.tariff.find(
+      this.selectedCode = this.calculationData.tariff.find(
         (item) => item.hscode === this.hscodeValue
       );
     },
